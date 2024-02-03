@@ -1,0 +1,339 @@
+.red-line {
+    border-color: #DB0000;
+    position:absolute;
+    left:100px;
+    width:87%;
+
+    overflow: hidden;
+    height:inherit;
+
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    transition:all .2s;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    overflow:hidden;
+    overflow-y:scroll;
+}
+
+.movie {
+    background-color: #111;
+    color: #fff;
+    padding-left: 100px;
+    padding-top: 10px;
+    margin-bottom: 0;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:visited {
+    color: white;
+}
+.cinema {
+    background-color: #111;
+    color: #fff;
+    padding-left: 100px;
+    padding-top: 30px;
+}
+
+header{
+    /*background:url('https://s3picturehouses.s3.eu-central-1.amazonaws.com/header/ph_15977496885f3bb9b84457c.jpg');*/
+    background-size:cover;
+    background-position:center;
+    width:100%;
+    position:relative;
+    padding-top:80px;
+}
+
+.cinemas {
+    background-color: #111111;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.logo a {
+    color: red;
+}
+
+.cinema-card {
+    padding: 20px;
+    background-color: #111;
+    text-align: center;
+    flex: 0 1 calc(25% - 8px); /* Set the width of each card to 25%, accounting for padding */
+    margin: 4px;
+    box-sizing: border-box;
+}
+
+.cinema-card img {
+    width: 170px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cinema-card h6 {
+    color: white;
+    font-size: 8px;
+}
+
+.cinema-card h3 {
+    margin: 5px 0; /* Reduced margin */
+    font-weight: bold;
+    color: white;
+    font-size: 13px;
+}
+
+.cinema-card p {
+    margin: 2px 0; /* Reduced margin */
+}
+
+
+header:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.75);
+    box-shadow:inset 0 0 80px #000;
+}
+
+
+header nav{
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 100px;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:99;
+    width:100%;
+}
+
+
+header nav .fa{
+    cursor:pointer;
+    display:none;
+}
+
+
+header nav .fa:hover{
+    color:#DB0000;
+}
+
+.nav{
+    background:#fff;
+    color:#000;
+    transition:background .5s;
+}
+
+.navBlack{
+    background:#000;
+    color:#fff;
+    transition:background .5s;
+}
+
+header nav .logo{
+    font-weight:700;
+    font-size:1.5em;
+}
+
+header nav .logo span{
+    color:#DB0000;
+}
+
+header nav ul .marker{
+    background:#DB0000;
+    width:40px;
+    height:2px;
+    position:absolute;
+    bottom:-5px;
+    left:0;
+    border-radius:20px;
+}
+
+
+header nav ul{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    text-transform:uppercase;
+    list-style:none;
+    position:relative;
+}
+
+
+header nav ul li{
+    cursor:pointer;
+}
+
+
+header nav ul li span{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+header nav ul li img{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+section .filter-search-box{
+    background:#111;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 100px;
+    padding-top:40px;
+    position:relative;
+}
+
+
+section .filter-search-box .filters-box{
+    display:flex;
+    gap:50px;
+    color:#fff;
+}
+
+section .filter-search-box .filters-box .filters{
+    cursor:pointer;
+}
+
+section .filter-search-box .search-bar{
+    position:absolute;
+    bottom:0;
+    left:100px;
+    width:87%;
+    height:2px;
+    background:#fff;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.search-bar .bar{
+    width:10%;
+    height:inherit;
+    background:#DB0000;
+}
+
+section .movie-cardd-section{
+    background:#111;
+    width:100%;
+    display: grid;
+    grid-template-columns:auto auto auto auto;
+    gap:18px;
+    padding-top:50px;
+    padding-left: 100px;
+    padding-bottom: 50px;
+}
+
+
+section .movie-cardd-section .cardd{
+    margin-bottom:20px;
+    color:#fff;
+    text-transform:uppercase;
+}
+
+section .movie-cardd-section .cardd img{
+    width:220px;
+    height:330px;
+    object-fit:cover;
+    border-radius:10px;
+    box-shadow:0 0 30px #000;
+}
+
+
+section .movie-cardd-section .cardd .card-content .movie-name{
+    font-weight:700;
+    margin-top:10px;
+}
+
+section .movie-cardd-section .cardd .cardd-content .movie-info{
+    font-size:.95em;
+    margin-top:10px;
+}
+
+
+section .movie-cardd-section .cardd .cardd-content .movie-info span{
+    color:#666;
+}
+
+section .movie-cardd-section .cardd .cardd-content .movie-info .d3{
+    background:#DB0000;
+    border-radius:50%;
+    font-size:.50em;
+    color:#fff;
+    padding:3px;
+    margin-left:3px;
+}
+
+section .show{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    width:100%;
+    background:#111;
+    padding:10px 100px;
+    padding-bottom:40px;
+}
+
+@media (min-width: 1024px) and (max-width: 1080px) {
+
+    section .movie-cardd-section{
+        grid-template-columns:auto auto auto;
+        gap:15px;
+    }
+}
+
+footer {
+    background: #111;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer a {
+    color: #DB0000;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: white;
+}
+
+.footer-social {
+    margin-top: 15px;
+}
+
+.footer-social a {
+    margin: 0 10px;
+    color: #fff;
+    font-size: 20px;
+}
+
+footer p {
+    margin-top: 15px;
+}
+
+.footer-social a:hover {
+    color: #DB0000;
+}
