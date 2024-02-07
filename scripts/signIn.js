@@ -30,7 +30,15 @@ function handleLogin() {
         .then(response => {
             // Handle successful login
             console.log(response.data);
-            alert('Login successful!');
+            // alert('Login successful!');
+
+            window.location.href = '/index.html'
+
+            const item = document.querySelector('#menu-box li.item span');
+            if (item) {
+                item.innerHTML = response.data.user.firstName;
+            }
+
         })
         .catch(error => {
             // Handle login error

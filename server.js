@@ -41,7 +41,7 @@ app.post('/login', async (req, res) => {
 
         if (user) {
             // Authentication successful
-            res.json({ message: 'Login successful', user });
+            res.json({ message: 'Login successful', redirectUrl: 'index.html', user });
         } else {
             // Authentication failed
             res.status(401).json({ message: 'Invalid credentials' });

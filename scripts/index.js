@@ -8,29 +8,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         movieCards.forEach((card, index) => {
             const posterImg = card.querySelector('img');
             posterImg.src = movies[index].posterPath;
+
+            const title = card.querySelector('p');
+            title.textContent = movies[index].title;
+
         });
     } catch (error) {
         console.error('Error fetching movie posters:', error.message);
     }
 });
-
-//indicator
-let marker = document.querySelector('.marker');
-let items = document.querySelectorAll('nav ul li');
-
-
-function indicator(e){
-    marker.style.left = e.offsetLeft + "px";
-    marker.style.width = e.offsetWidth + "px";
-}
-
-items.forEach(link =>{
-    link.addEventListener("click",(e)=>{
-        indicator(e.target);
-    })
-})
-
-
 
 //for menu scroll
 let nav = document.querySelector('nav');
