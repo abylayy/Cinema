@@ -1,4 +1,18 @@
-//js power
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const response = await fetch('/movies');
+        const movies = await response.json();
+
+        const movieCards = document.querySelectorAll('.cardd');
+
+        movieCards.forEach((card, index) => {
+            const posterImg = card.querySelector('img');
+            posterImg.src = movies[index].posterPath;
+        });
+    } catch (error) {
+        console.error('Error fetching movie posters:', error.message);
+    }
+});
 
 //indicator
 let marker = document.querySelector('.marker');
