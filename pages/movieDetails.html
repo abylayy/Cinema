@@ -6,11 +6,10 @@
     <link rel="icon" type="image/png" href ="https://thumbs.dreamstime.com/b/letter-k-logo-symbol-impact-font-red-circle-white-background-isolation-letter-k-logo-symbol-red-circle-211786118.jpg">
 </head>
 <body>
-<h1>Movie Details</h1>
-<div id="movie-details">
-    <!-- Movie details will be dynamically populated here -->
-</div>
-
-<script src = "fetchMovie.js"></script>
+<form action="/create" method="post">
+    <label for="title">New Title:</label>
+    <input type="text" id="title" name="title" required>
+    <button type="submit">Add Title</button>
+</form>
 </body>
 </html>
