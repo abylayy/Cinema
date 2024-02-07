@@ -12,29 +12,46 @@ mongoose.connect('mongodb://localhost:27017/cinemaDB', { useNewUrlParser: true, 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'styles')));
 app.use(express.static(path.join(__dirname, 'scripts')));
 app.use(express.static(path.join(__dirname, 'pages')));
 
-app.post('/fart', async (req, res) => {
-    const {firstName} = req.body;
-    const {lastName} = req.body;
+app.post('/register', async (req, res) =>  {
+    const { firstName, lastName, email, password } = req.body;
+
     try {
-        const user = new User({ firstName, lastName });
+        const user = new User({firstName, lastName, email, password});
+
         await user.save();
-        res.send(user);
+
+        res.json({message: 'Registration successfully completed!', user});
     } catch (error) {
         console.error(error);
-        res.status(500).send(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email, password });
+
+        if (user) {
+            // Authentication successful
+            res.json({ message: 'Login successful', user });
+        } else {
+            // Authentication failed
+            res.status(401).json({ message: 'Invalid credentials' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-app.get('/fart', (req, res) => {
-    res.render('fart.ejs', { });
-});
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));

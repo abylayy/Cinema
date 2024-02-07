@@ -21,6 +21,45 @@ function register() {
     registerForm.style.opacity = 1;
 }
 
+function handleLogin() {
+    let loginEmail = document.getElementById("loginEmail").value;
+    let loginPassword = document.getElementById("loginPassword").value;
+
+    // Example Axios POST request for login
+    axios.post('/login', { email: loginEmail, password: loginPassword })
+        .then(response => {
+            // Handle successful login
+            console.log(response.data);
+            alert('Login successful!');
+        })
+        .catch(error => {
+            // Handle login error
+            console.error(error);
+            alert('Login failed. Please check your credentials and try again.');
+        });
+}
+
+function handleRegistration() {
+    let registerFirstName = document.getElementById("registerFirstName").value;
+    let registerLastName = document.getElementById("registerLastName").value;
+    let registerEmail = document.getElementById("registerEmail").value;
+    let registerPassword = document.getElementById("registerPassword").value;
+
+    // Example Axios POST request for registration
+    axios.post('/register', { firstName: registerFirstName, lastName: registerLastName, email: registerEmail, password: registerPassword })
+        .then(response => {
+            // Handle successful registration
+            console.log(response.data);
+            alert('Registration successful!');
+        })
+        .catch(error => {
+            // Handle registration error
+            console.error(error);
+            alert('Registration failed. Please try again.');
+        });
+}
+
+// Your existing code for the menu item indicator...
 let marker = document.querySelector('.marker');
 let items = document.querySelectorAll('nav ul li');
 function indicator(e){
@@ -32,5 +71,4 @@ items.forEach(link =>{
     link.addEventListener("click",(e)=>{
         indicator(e.target);
     })
-})
-
+});
