@@ -1,6 +1,5 @@
 const UserModel = require('../models/user');
-const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 
 exports.create = async (req, res) => {
     if (!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password) {
@@ -17,7 +16,11 @@ exports.create = async (req, res) => {
 
     try {
         const savedUser = await user.save();
-        res.status(201).json({ message: "User created successfully!", user: savedUser });
+
+        const token = jwt.sign({ userId: user.id }, 'e77d7a7b8bde0b3cf4513dA', { expiresIn: '1h' });
+
+
+        res.status(201).json({ message: "User created successfully!", user: savedUser, token });
     } catch (err) {
         res.status(500).send({ message: err.message || "Some error occurred while creating user" });
     }
@@ -88,7 +91,9 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        res.status(200).json({ message: 'Login successful', user });
+        const token = jwt.sign({ userId: user.id }, 'e77d7a7b8bde0b3cf4513dA', { expiresIn: '1h' });
+
+        res.status(200).json({ message: 'Login successful', user, token });
     } catch (error) {
         res.status(500).json({ message: error.message || 'Error during login' });
     }

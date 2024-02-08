@@ -3,7 +3,7 @@ const path = require('path');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-// const userController = require('./userController');
+const jwt = require('jsonwebtoken')
 
 const app = express();
 
@@ -12,8 +12,26 @@ mongoose.connect('mongodb://localhost:27017/cinemaDB', { useNewUrlParser: true, 
     .catch((err) => console.log(err));
 
 const userRoutes = require('./routes/userRoutes');
+const {decode} = require("jsonwebtoken");
 
 app.use(bodyParser.json());
+
+const verifyToken = (req, res, next) => {
+    const token = req.headers.authorization;
+
+    if(!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    jwt.verify(token, 'e77d7a7b8bde0b3cf4513dA', (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: 'Invalid Token' });
+        }
+
+        req.userId = decoded.userId;
+        next();
+    });
+};
 
 app.use('/user', userRoutes);
 
@@ -24,6 +42,10 @@ app.use(express.static(path.join(__dirname, 'scripts')));
 app.use(express.static(path.join(__dirname, 'pages')));
 app.use(express.static(path.join(__dirname, 'routes')));
 app.use(express.static(path.join(__dirname, 'controllers')));
+
+app.get('/protected', verifyToken, (req, res) => {
+   res.json({ message: 'This is protected route!', userId: req.userId });
+});
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
