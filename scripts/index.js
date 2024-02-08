@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 //for menu scroll
 let nav = document.querySelector('nav');
-let ul = document.querySelector('nav ul');
+// let ul = document.querySelector('nav ul');
 
 window.addEventListener("scroll",()=>{
     if(window.pageYOffset >= 20){

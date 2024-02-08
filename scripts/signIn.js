@@ -3,7 +3,7 @@ var registerBtn = document.getElementById("registerBtn");
 var loginForm = document.getElementById("login");
 var registerForm = document.getElementById("register");
 
-function login() {
+function moveLogin() {
     loginForm.style.left = "4px";
     registerForm.style.right = "-520px";
     loginBtn.classList.remove("none");
@@ -12,7 +12,7 @@ function login() {
     registerForm.style.opacity = 0;
 }
 
-function register() {
+function moveRegister() {
     loginForm.style.left = "-510px";
     registerForm.style.right = "5px";
     loginBtn.classList.add("none");
@@ -21,53 +21,6 @@ function register() {
     registerForm.style.opacity = 1;
 }
 
-function handleLogin() {
-    let loginEmail = document.getElementById("loginEmail").value;
-    let loginPassword = document.getElementById("loginPassword").value;
-
-    // Example Axios POST request for login
-    axios.post('/login', { email: loginEmail, password: loginPassword })
-        .then(response => {
-            // Handle successful login
-            console.log(response.data);
-            // alert('Login successful!');
-
-            window.location.href = '/index.html'
-
-            const item = document.querySelector('#menu-box li.item span');
-            if (item) {
-                item.innerHTML = response.data.user.firstName;
-            }
-
-        })
-        .catch(error => {
-            // Handle login error
-            console.error(error);
-            alert('Login failed. Please check your credentials and try again.');
-        });
-}
-
-function handleRegistration() {
-    let registerFirstName = document.getElementById("registerFirstName").value;
-    let registerLastName = document.getElementById("registerLastName").value;
-    let registerEmail = document.getElementById("registerEmail").value;
-    let registerPassword = document.getElementById("registerPassword").value;
-
-    // Example Axios POST request for registration
-    axios.post('/register', { firstName: registerFirstName, lastName: registerLastName, email: registerEmail, password: registerPassword })
-        .then(response => {
-            // Handle successful registration
-            console.log(response.data);
-            alert('Registration successful!');
-        })
-        .catch(error => {
-            // Handle registration error
-            console.error(error);
-            alert('Registration failed. Please try again.');
-        });
-}
-
-// Your existing code for the menu item indicator...
 let marker = document.querySelector('.marker');
 let items = document.querySelectorAll('nav ul li');
 function indicator(e){
@@ -80,3 +33,54 @@ items.forEach(link =>{
         indicator(e.target);
     })
 });
+
+function register() {
+    const firstName = document.getElementById("registerFirstName").value;
+    const lastName = document.getElementById("registerLastName").value;
+    const email = document.getElementById("registerEmail").value;
+    const password = document.getElementById("registerPassword").value;
+
+    // Make a request to the server to create a new user
+    axios.post('/user/create', {
+        firstName,
+        lastName,
+        email,
+        password
+    })
+        .then(response => {
+            console.log(response.data.message);
+            alert("Registration successful! You can now sign in.");
+
+            window.location.href = "signIn.html";
+        })
+        .catch(error => {
+            console.error(error.response.data.message);
+
+            alert(error.response.data.message);
+        });
+}
+
+function login() {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+    const firstName = document.getElementById("registerFirstName").value;
+
+    axios.post('/user/login', {
+        firstName,
+        email,
+        password
+    })
+        .then(response => {
+            console.log(response.data.message);
+
+            window.location.href = "index.html";
+            alert(`Welcome to KinoKor ${email}`);
+
+        })
+        .catch(error => {
+            console.error(error.response.data.message);
+
+            alert("Invalid email or password. Please try again.");
+        });
+}
+
