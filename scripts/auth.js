@@ -5,11 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-            // Clear the token
-            document.cookie = 'token=; expires=Thu, 01 Jan 1000 00:00:00 UTC; path=/;';
+            if (confirm("Are you sure you want to log out from your account?")) {
+                // Clear the token
+                document.cookie = 'token=; expires=Thu, 01 Jan 1000 00:00:00 UTC; path=/;';
 
-            updateNavbar();
+                logoutBtn.addEventListener('click', () => {
+                    window.location.href = "index.html";
+                });
+
+                updateNavbar();
+                updateNavbar();
+            }
         });
+    }
+
+    const updateAccountBtn = document.getElementById("updateAccountBtn");
+
+    if (updateAccountBtn) {
+        updateAccountBtn.addEventListener('click', updateAccount);
+    }
+
+    const deleteAccountBtn = document.getElementById("deleteAccountBtn");
+
+    if (deleteAccountBtn) {
+        deleteAccountBtn.addEventListener('click', deleteAccount);
     }
 
     const loginBtn = document.getElementById("loginBtn");
@@ -26,6 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginSubmitBtn && registerSubmitBtn) {
         loginSubmitBtn.addEventListener("click", login);
         registerSubmitBtn.addEventListener("click", register);
+    }
+
+    const accountBtn = document.getElementById("accountBtn");
+
+    if (accountBtn) {
+        accountBtn.addEventListener('click', () => {
+            window.location.href = "account.html";
+        });
     }
 
     let marker = document.querySelector('.marker');
@@ -96,15 +123,14 @@ function register() {
 function login() {
     const email = document.getElementById("loginEmail").value;
     const password = document.getElementById("loginPassword").value;
-    const firstName = document.getElementById("registerFirstName").value;
 
     axios.post('/user/login', {
-        firstName,
         email,
         password
     })
         .then(response => {
             const { token } = response.data;
+
             document.cookie = `token=${token}; expires=${new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)}; path=/`;
 
             updateNavbar();
@@ -122,9 +148,27 @@ function login() {
         });
 }
 
+function deleteAccount() {
+    if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+        axios.delete('/user/destroy/:id',)
+            .then(response => {
+                console.log(response.data.message);
+                alert("Account deleted successfully!");
+
+                document.cookie = 'token=; expires=Thu, 01 Jan 1000 00:00:00 UTC; path=/';
+                window.location.href = "signIn.html";
+            })
+            .catch(error => {
+                console.error(error.response.data.message);
+                alert("Error deleting account. Please try again.");
+            });
+    }
+}
+
 function updateNavbar() {
     const loginBtn = document.getElementById("loginBtn");
     const logoutBtn = document.getElementById("logoutBtn");
+    const accountBtn = document.getElementById("accountBtn");
 
     if (loginBtn && logoutBtn) {
         const token = getCookie('token');
@@ -132,9 +176,11 @@ function updateNavbar() {
         if (token) {
             loginBtn.classList.add('hidden');
             logoutBtn.classList.remove('hidden');
+            accountBtn.classList.remove('hidden');
         } else {
             loginBtn.classList.remove('hidden');
             logoutBtn.classList.add('hidden');
+            accountBtn.classList.add('hidden');
         }
     }
 }

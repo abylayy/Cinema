@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Account - KinoKor</title>
+  <link rel="icon" type="image/png" href ="https://thumbs.dreamstime.com/b/letter-k-logo-symbol-impact-font-red-circle-white-background-isolation-letter-k-logo-symbol-red-circle-211786118.jpg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="account.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+<header>
+  <nav>
+    <p class="logo">
+      Kino<span><a href = "index.html">Kor</a></span>
+    </p>
+
+    <i class="fa fa-bars" id="menu"></i>
+
+    <ul id="menu-box">
+      <div class="marker"></div>
+      <li>Home</li>
+      <li>Astana</li>
+      <li>About us</li>
+      <li class="btn" id="accountBtn">Account</li>
+    </ul>
+
+  </nav>
+
+</header>
+
+<section class="centered-container">
+  <div class="wrapper">
+    <div class="sidebar">
+      <ul class="vertical-nav">
+        <li><a href="#">Account</a></li>
+        <li><a href="#">My Tickets</a></li>
+        <li><a href="#">Payment Methods</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Notifications</a></li>
+        <li><a href="#">VIP</a></li>
+        <li id ="logoutBtn">Log Out</li>
+      </ul>
+    </div>
+    <div class="account-details">
+      <h2>Hello, !</h2>
+      <div class="account-info">
+        <div class="update-form">
+          <label for="updatedFirstName">First Name:</label>
+          <input type="text" id="updatedFirstName" placeholder="Enter updated first name">
+
+          <label for="updatedLastName">Last Name:</label>
+          <input type="text" id="updatedLastName" placeholder="Enter updated last name">
+
+          <label for="updatedEmail">Email:</label>
+          <input type="text" id="updatedEmail" placeholder="Enter updated email">
+
+          <label for="updatedPassword">Password:</label>
+          <input type="text" id="updatedPassword" placeholder="Enter updated password">
+
+          <button id="updateAccountBtn">Update Account</button>
+        </div>
+
+        <button id="deleteAccountBtn">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <p>&copy; 2024 KinoKor. All rights reserved.</p>
+</footer>
+<!--<script src = "index.js"></script>-->
+<script src = "auth.js"></script>
+</body>
+</html>

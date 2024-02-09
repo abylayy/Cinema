@@ -53,11 +53,8 @@ exports.update = async (req, res) => {
         res.status(400).send({ message: "Data to update can not be empty!" });
         return;
     }
-
-    const id = req.params.id;
-
     try {
-        const updatedUser = await UserModel.findByIdAndUpdate(id, req.body, { new: true, useFindAndModify: false });
+        const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, req.body, { new: true, useFindAndModify: false });
         if (updatedUser) {
             res.json({ message: "User updated successfully.", user: updatedUser });
         } else {
@@ -70,7 +67,7 @@ exports.update = async (req, res) => {
 
 exports.destroy = async (req, res) => {
     try {
-        const deletedUser = await UserModel.findOneAndDelete({ _id: id });
+        const deletedUser = await UserModel.findOneAndDelete(req.params.id);
         if (deletedUser) {
             res.json({ message: "User deleted successfully!" });
         } else {
