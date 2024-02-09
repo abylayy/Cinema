@@ -43,8 +43,12 @@ app.use(express.static(path.join(__dirname, 'pages')));
 app.use(express.static(path.join(__dirname, 'routes')));
 app.use(express.static(path.join(__dirname, 'controllers')));
 
+app.post('/logout', (req, res) => {
+    res.clearCookie('token').json({ message: 'Logout successful' });
+});
+
 app.get('/protected', verifyToken, (req, res) => {
-   res.json({ message: 'This is protected route!', userId: req.userId });
+    res.json({ message: 'This is protected route!', userId: req.userId });
 });
 
 app.get('/', (req, res) => {
@@ -74,9 +78,9 @@ app.get('/movies', async (req, res) => {
 
         res.json(movies);
     } catch (error) {
-    console.error('Error fetching movie data:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
-}
+        console.error('Error fetching movie data:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
+    }
 
 });
 

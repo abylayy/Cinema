@@ -1,3 +1,49 @@
+document.addEventListener('DOMContentLoaded', () => {
+    updateNavbar();
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            // Clear the token
+            document.cookie = 'token=; expires=Thu, 01 Jan 1000 00:00:00 UTC; path=/;';
+
+            updateNavbar();
+        });
+    }
+
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+
+    if (loginBtn && registerBtn) {
+        loginBtn.addEventListener("click", moveLogin);
+        registerBtn.addEventListener("click", moveRegister);
+    }
+
+    const loginSubmitBtn = document.getElementById("loginSubmit");
+    const registerSubmitBtn = document.getElementById("registerSubmit");
+
+    if (loginSubmitBtn && registerSubmitBtn) {
+        loginSubmitBtn.addEventListener("click", login);
+        registerSubmitBtn.addEventListener("click", register);
+    }
+
+    let marker = document.querySelector('.marker');
+    let items = document.querySelectorAll('nav ul li');
+
+    function indicator(e) {
+        marker.style.left = e.offsetLeft + "px";
+        marker.style.width = e.offsetWidth + "px";
+    }
+
+    items.forEach(link => {
+        link.addEventListener("click", (e) => {
+            indicator(e.target);
+        });
+    });
+
+});
+
 var loginBtn = document.getElementById("loginBtn");
 var registerBtn = document.getElementById("registerBtn");
 var loginForm = document.getElementById("login");
@@ -20,19 +66,6 @@ function moveRegister() {
     loginForm.style.opacity = 0;
     registerForm.style.opacity = 1;
 }
-
-let marker = document.querySelector('.marker');
-let items = document.querySelectorAll('nav ul li');
-function indicator(e){
-    marker.style.left = e.offsetLeft + "px";
-    marker.style.width = e.offsetWidth + "px";
-}
-
-items.forEach(link =>{
-    link.addEventListener("click",(e)=>{
-        indicator(e.target);
-    })
-});
 
 function register() {
     const firstName = document.getElementById("registerFirstName").value;
@@ -71,6 +104,11 @@ function login() {
         password
     })
         .then(response => {
+            const { token } = response.data;
+            document.cookie = `token=${token}; expires=${new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)}; path=/`;
+
+            updateNavbar();
+
             console.log(response.data.message);
 
             window.location.href = "index.html";
@@ -83,4 +121,33 @@ function login() {
             alert("Invalid email or password. Please try again.");
         });
 }
+
+function updateNavbar() {
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (loginBtn && logoutBtn) {
+        const token = getCookie('token');
+
+        if (token) {
+            loginBtn.classList.add('hidden');
+            logoutBtn.classList.remove('hidden');
+        } else {
+            loginBtn.classList.remove('hidden');
+            logoutBtn.classList.add('hidden');
+        }
+    }
+}
+
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.split('=');
+        if (cookieName.trim() === name) {
+            return decodeURIComponent(cookieValue); // Decode the cookie value
+        }
+    }
+    return null;
+}
+
 

@@ -338,3 +338,12 @@ footer p {
 .footer-social a:hover {
     color: #DB0000;
 }
+
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}

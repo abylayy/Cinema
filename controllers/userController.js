@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
     try {
         const savedUser = await user.save();
 
-        const token = jwt.sign({ userId: user.id }, 'e77d7a7b8bde0b3cf4513dA', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id }, 'e77d7a7b8bde0b3cf4513dA', { expiresIn: '7d' });
 
 
         res.status(201).json({ message: "User created successfully!", user: savedUser, token });
@@ -91,7 +91,7 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        const token = jwt.sign({ userId: user.id }, 'e77d7a7b8bde0b3cf4513dA', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id }, 'e77d7a7b8bde0b3cf4513dA', { expiresIn: '7d' });
 
         res.status(200).json({ message: 'Login successful', user, token });
     } catch (error) {
