@@ -1,5 +1,9 @@
 # KinoKor
 
+## Contributors
+- Abylay Amandykov
+- Merey Issenbay
+
 ## Features
 - **Book Seats Before the Poster:** Users can reserve seats before viewing the movie poster.
 - **Easily Buy Tickets:** Seamless ticket purchasing process for users.
