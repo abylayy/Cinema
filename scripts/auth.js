@@ -9,11 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Clear the token
                 document.cookie = 'token=; expires=Thu, 01 Jan 1000 00:00:00 UTC; path=/;';
 
-                logoutBtn.addEventListener('click', () => {
                     window.location.href = "index.html";
-                });
 
-                updateNavbar();
                 updateNavbar();
             }
         });
@@ -22,7 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateAccountBtn = document.getElementById("updateAccountBtn");
 
     if (updateAccountBtn) {
-        updateAccountBtn.addEventListener('click', updateAccount);
+        updateAccountBtn.addEventListener('click', () => {
+            const id = getUserId();
+            update(id);
+        });
     }
 
     const deleteAccountBtn = document.getElementById("deleteAccountBtn");
@@ -94,6 +94,7 @@ function moveRegister() {
     registerForm.style.opacity = 1;
 }
 
+
 function register() {
     const firstName = document.getElementById("registerFirstName").value;
     const lastName = document.getElementById("registerLastName").value;
@@ -147,7 +148,27 @@ function login() {
             alert("Invalid email or password. Please try again.");
         });
 }
+function update(id) {
+    const updatedFirstName = document.getElementById("updatedFirstName").value;
+    const updatedLastName = document.getElementById("updatedLastName").value;
+    const updatedEmail = document.getElementById("updatedEmail").value;
+    const updatedPassword = document.getElementById("updatedPassword").value;
 
+    axios.put(`/user/update/${id}`, {
+        firstName: updatedFirstName,
+        lastName: updatedLastName,
+        email: updatedEmail,
+        password: updatedPassword
+    })
+        .then(response => {
+            console.log(response.data.message);
+            alert("Account updated successfully!");
+        })
+        .catch(error => {
+            console.error(error.response.data.message);
+            alert("Error updating account. Please try again.");
+        });
+}
 function deleteAccount() {
     if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
         axios.delete('/user/destroy/:id',)
@@ -195,5 +216,23 @@ function getCookie(name) {
     }
     return null;
 }
+
+function getUserId() {
+    const token = getCookie('token');
+
+    if (token) {
+        try {
+            return JSON.parse(atob(token.split('.')[1])).userId;
+        } catch (error) {
+            console.error("Error extracting user ID from token:", error);
+        }
+    }
+
+    return null;
+}
+
+
+
+
 
 

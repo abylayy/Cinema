@@ -54,7 +54,7 @@ exports.update = async (req, res) => {
         return;
     }
     try {
-        const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, req.body, { new: true, useFindAndModify: false });
+        const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false });
         if (updatedUser) {
             res.json({ message: "User updated successfully.", user: updatedUser });
         } else {
