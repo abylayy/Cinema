@@ -250,7 +250,11 @@ section .movie-cardd-section{
 section .movie-cardd-section .cardd{
     margin-bottom:20px;
     color:#fff;
+    width: 220px;
     text-transform:uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 section .movie-cardd-section .cardd img{
