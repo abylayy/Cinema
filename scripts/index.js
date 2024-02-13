@@ -1,20 +1,40 @@
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async function () {
     try {
-        const response = await fetch('/movies');
-        const movies = await response.json();
+        const response = await axios.get('/movies');
 
-        const movieCards = document.querySelectorAll('.cardd');
+        const movies = response.data;
 
-        movieCards.forEach((card, index) => {
-            const posterImg = card.querySelector('img');
-            posterImg.src = movies[index].posterPath;
+        const movieCardSection = document.querySelector('.movie-cardd-section');
 
-            const title = card.querySelector('p');
-            title.textContent = movies[index].title;
+        movieCardSection.innerHTML = '';
 
+        movies.forEach((movie) => {
+            const card = document.createElement('div');
+            card.classList.add('cardd');
+
+            const image = document.createElement('img');
+            image.src = movie.posterPath;
+            image.alt = movie.title;
+
+            const content = document.createElement('div');
+            content.classList.add('cardd-content');
+
+            const movieName = document.createElement('p');
+            movieName.classList.add('movie-name');
+            const movieLink = document.createElement('a');
+            movieLink.href = `movieDetails.html?id=${movie.id}`;
+            movieLink.textContent = movie.title;
+            movieName.appendChild(movieLink);
+
+            content.appendChild(movieName);
+
+            card.appendChild(image);
+            card.appendChild(content);
+
+            movieCardSection.appendChild(card);
         });
     } catch (error) {
-        console.error('Error fetching movie posters:', error.message);
+        console.error('Error fetching movie data:', error);
     }
 });
 

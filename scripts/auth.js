@@ -28,7 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteAccountBtn = document.getElementById("deleteAccountBtn");
 
     if (deleteAccountBtn) {
-        deleteAccountBtn.addEventListener('click', deleteAccount);
+        deleteAccountBtn.addEventListener('click', () => {
+            const id = getUserId();
+            deleteAccount(id);
+        });
     }
 
     const loginBtn = document.getElementById("loginBtn");
@@ -110,7 +113,7 @@ function register() {
     })
         .then(response => {
             console.log(response.data.message);
-            alert("Registration successful! You can now sign in.");
+            alert(response.data.message);
 
             window.location.href = "signIn.html";
         })
@@ -145,7 +148,7 @@ function login() {
         .catch(error => {
             console.error(error.response.data.message);
 
-            alert("Invalid email or password. Please try again.");
+            alert(error.response.data.message);
         });
 }
 function update(id) {
@@ -162,16 +165,16 @@ function update(id) {
     })
         .then(response => {
             console.log(response.data.message);
-            alert("Account updated successfully!");
+            alert(response.data.message);
         })
         .catch(error => {
             console.error(error.response.data.message);
-            alert("Error updating account. Please try again.");
+            alert(error.response.data.message);
         });
 }
-function deleteAccount() {
+function deleteAccount(id) {
     if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-        axios.delete('/user/destroy/:id',)
+        axios.delete(`/user/destroy/${id}`,)
             .then(response => {
                 console.log(response.data.message);
                 alert("Account deleted successfully!");
@@ -181,7 +184,7 @@ function deleteAccount() {
             })
             .catch(error => {
                 console.error(error.response.data.message);
-                alert("Error deleting account. Please try again.");
+                alert(error.response.data.message);
             });
     }
 }

@@ -49,10 +49,11 @@ exports.findOne = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-    if (!req.body) {
+    if (!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password) {
         res.status(400).send({ message: "Data to update can not be empty!" });
         return;
     }
+
     try {
         const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false });
         if (updatedUser) {
@@ -67,7 +68,7 @@ exports.update = async (req, res) => {
 
 exports.destroy = async (req, res) => {
     try {
-        const deletedUser = await UserModel.findOneAndDelete(req.params.id);
+        const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
         if (deletedUser) {
             res.json({ message: "User deleted successfully!" });
         } else {
