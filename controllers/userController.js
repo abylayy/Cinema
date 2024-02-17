@@ -1,9 +1,22 @@
 const UserModel = require('../models/user');
 const jwt = require('jsonwebtoken');
 
+const passwordRegex = /^.{8,}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 exports.create = async (req, res) => {
     if (!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password) {
         res.status(400).send({ message: 'Fields cannot be empty!' });
+        return;
+    }
+
+    if (!emailRegex.test(req.body.email)) {
+        res.status(400).send({ message: 'Invalid email format!' });
+        return;
+    }
+
+    if (!passwordRegex.test(req.body.password)) {
+        res.status(400).send({ message: 'Password must be at least 8 characters long!' });
         return;
     }
 
@@ -54,6 +67,16 @@ exports.update = async (req, res) => {
         return;
     }
 
+    if (!emailRegex.test(req.body.email)) {
+        res.status(400).send({ message: 'Invalid email format!' });
+        return;
+    }
+
+    if (!passwordRegex.test(req.body.password)) {
+        res.status(400).send({ message: 'Password must be at least 8 characters long!' });
+        return;
+    }
+    
     try {
         const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false });
         if (updatedUser) {
