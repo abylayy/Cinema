@@ -3,7 +3,6 @@
     position:absolute;
     left:100px;
     width:87%;
-
     overflow: hidden;
     height:inherit;
 
@@ -81,6 +80,7 @@ header{
     height: 100px;
     object-fit: cover;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 .cinema-card h6 {
@@ -248,7 +248,7 @@ section .movie-cardd-section{
 
 
 section .movie-cardd-section .cardd{
-    margin-bottom:20px;
+    margin-bottom:10px;
     color:#fff;
     width: 220px;
     text-transform:uppercase;
@@ -257,12 +257,18 @@ section .movie-cardd-section .cardd{
     white-space: nowrap;
 }
 
+.filters.selected {
+    background-color: #DB0000;
+    color: #fff;
+}
+
 section .movie-cardd-section .cardd img{
     width:220px;
     height:330px;
     object-fit:cover;
     border-radius:10px;
     box-shadow:0 0 30px #000;
+    cursor: pointer;
 }
 
 
@@ -299,6 +305,28 @@ section .show{
     background:#111;
     padding:10px 100px;
     padding-bottom:40px;
+}
+
+#load-more-button {
+    background-color: #DB0000;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 8px;
+    margin-bottom: 60px;
+}
+
+#load-more-button:hover {
+    background-color: #950000;
+}
+
+.load {
+    background-color: #111;
+    text-align: center;
 }
 
 @media (min-width: 1024px) and (max-width: 1080px) {

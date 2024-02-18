@@ -1,12 +1,35 @@
 document.addEventListener('DOMContentLoaded', async function () {
     try {
-        const response = await axios.get('/movies');
+        const movies = await fetchMovies();
+        renderMovieCards(movies);
 
-        const movies = response.data;
+        let currentPage = 1;
 
+        const loadMoreButton = document.getElementById('load-more-button');
+
+        loadMoreButton.addEventListener('click', async () => {
+            currentPage++;
+            const newMovies = await fetchMovies(currentPage);
+            renderMovieCards(newMovies);
+        });
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+    }
+
+    // Function to fetch movies
+    async function fetchMovies(page = 1) {
+        try {
+            const response = await axios.get(`/movies?page=${page}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching movie data:', error);
+            throw error;
+        }
+    }
+
+    // Function to render movie cards
+    function renderMovieCards(movies) {
         const movieCardSection = document.querySelector('.movie-cardd-section');
-
-        movieCardSection.innerHTML = '';
 
         movies.forEach((movie) => {
             const card = document.createElement('div');
@@ -16,13 +39,25 @@ document.addEventListener('DOMContentLoaded', async function () {
             image.src = movie.posterPath;
             image.alt = movie.title;
 
+            image.addEventListener('click', async () => {
+                try {
+                    const movieDetailsResponse = await axios.get(`/movieDetails/${movie.id}`);
+                    const movieDetails = movieDetailsResponse.data;
+
+                    window.location.href = `/movieDetails/${movieDetails.id}`;
+
+                } catch (error) {
+                    console.error('Error fetching movie details:', error);
+                }
+            });
+
             const content = document.createElement('div');
             content.classList.add('cardd-content');
 
             const movieName = document.createElement('p');
             movieName.classList.add('movie-name');
             const movieLink = document.createElement('a');
-            movieLink.href = `movieDetails.html?id=${movie.id}`;
+            movieLink.href = `/movieDetails/${movie.id}`;
             movieLink.textContent = movie.title;
             movieName.appendChild(movieLink);
 
@@ -33,48 +68,44 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             movieCardSection.appendChild(card);
         });
-    } catch (error) {
-        console.error('Error fetching movie data:', error);
     }
 });
 
 //for menu scroll
-let nav = document.querySelector('nav');
-// let ul = document.querySelector('nav ul');
-
-window.addEventListener("scroll",()=>{
-    if(window.pageYOffset >= 20){
-        nav.classList.add('nav');
-    }else{
-        nav.classList.remove('nav');
-    }
-
-    if(window.pageYOffset >= 700){
-        nav.classList.add('navBlack');
-    }else{
-        nav.classList.remove('navBlack');
-    }
-})
-
-
-$(".carousel").owlCarousel({
-    margin: 20,
-    loop: true,
-    autoplay: true,
-    autoplayTimeout: 5000,
-    autoplayHoverPause: true,
-    responsive: {
-        0:{
-            items:3,
-            nav: true
-        },
-        600:{
-            items:3,
-            nav: true
-        },
-        1000:{
-            items:3,
-            nav: true
+    let nav = document.querySelector('nav');
+    window.addEventListener("scroll",()=>{
+        if(window.pageYOffset >= 20){
+            nav.classList.add('nav');
+        }else{
+            nav.classList.remove('nav');
         }
-    }
-});
+
+        if(window.pageYOffset >= 700){
+            nav.classList.add('navBlack');
+        }else{
+            nav.classList.remove('navBlack');
+        }
+    });
+
+
+    $(".carousel").owlCarousel({
+        margin: 20,
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true,
+        responsive: {
+            0:{
+                items:3,
+                nav: true
+            },
+            600:{
+                items:3,
+                nav: true
+            },
+            1000:{
+                items:3,
+                nav: true
+            }
+        }
+    });
