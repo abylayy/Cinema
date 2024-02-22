@@ -3,6 +3,7 @@ const axios = require('axios');
 const verifyToken = require('../middleware/authMiddlware');
 const express = require('express');
 const router = express.Router();
+const seatBookingPage = path.join(__dirname, '../pages', 'seatBooking.html');
 
 router.post('/logout', (req, res) => {
     res.clearCookie('token').json({ message: 'Logout successful' });
@@ -12,12 +13,20 @@ router.get('/protected', verifyToken, (req, res) => {
     res.json({ message: 'This is protected route!', userId: req.userId });
 });
 
+router.get('/seatBooking', (req, res) => {
+    res.sendFile(seatBookingPage);
+});
+
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../pages', 'index.html'));
 });
 
 router.get('/styles/style.css', (req, res) => {
     res.sendFile(path.join(__dirname, '../styles', 'style.css'));
+});
+
+router.get('/styles/seats.css', (req, res) => {
+    res.sendFile(path.join(__dirname, '../styles', 'seats.css'));
 });
 
 router.get('/scripts/index.js', (req, res) => {

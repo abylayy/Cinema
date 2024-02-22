@@ -108,6 +108,46 @@ body {
     background: #DB0000;
 }
 
+.payment-methods-info {
+    margin-top: 20px;
+}
+
+.feedback-form {
+    margin-top: 50px;
+    margin-bottom: 170px;
+    text-align: center;
+}
+
+.feedback-form textarea {
+    width: 70%; /* Adjust the width of the textarea */
+    padding: 10px;
+    /*margin-top: 10px;*/
+    box-sizing: border-box;
+    resize: none;
+    overflow: hidden;
+    font-size: 16px;
+    margin: 0 auto; /* Center the textarea horizontally */
+}
+
+.feedback-form textarea::placeholder {
+    text-align: center; /* Center the placeholder text */
+}
+
+.feedback-form button {
+    display: block;
+    margin: 20px auto 0;
+    background-color: #DB0000;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 70px;
+}
+
+.feedback-form button:hover {
+    background-color: #960000;
+}
 
 /* Adjustments for responsiveness */
 @media screen and (max-width: 768px) {

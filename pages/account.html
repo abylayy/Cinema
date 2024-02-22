@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="account.css">
   <link rel="stylesheet" href="login.css">
   <script src = "auth.js"></script>
+  <script src = "account.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
@@ -39,35 +40,14 @@
   <div class="wrapper">
     <div class="sidebar">
       <ul class="vertical-nav">
-        <li><a href="#">Account</a></li>
-        <li><a href="#">My Tickets</a></li>
-        <li><a href="#">Payment Methods</a></li>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">Notifications</a></li>
-        <li><a href="#">VIP</a></li>
-        <li id ="logoutBtn">Log Out</li>
+        <li data-content="account"><a href="#">Account</a></li>
+        <li data-content="mytickets"><a href="#">My Tickets</a></li>
+        <li data-content="feedback"><a href="#">Feedback</a></li>
+        <li data-content="paymentmethods"><a href="#">Payment Methods</a></li>
+        <li id="logoutBtn">Log Out</li>
       </ul>
     </div>
     <div class="account-details">
-      <h2>Hello, !</h2>
-      <div class="account-info">
-        <div class="update-form">
-          <label for="updatedFirstName">First Name:</label>
-          <input type="text" id="updatedFirstName" class="input-field" placeholder="Enter updated first name">
-
-          <label for="updatedLastName">Last Name:</label>
-          <input type="text" id="updatedLastName" class="input-field" placeholder="Enter updated last name">
-
-          <label for="updatedEmail">Email:</label>
-          <input type="text" id="updatedEmail" class="input-field" placeholder="Enter updated email">
-
-          <label for="updatedPassword">Password:</label>
-          <input type="text" id="updatedPassword" class="input-field" placeholder="Enter updated password">
-
-        </div>
-        <button id="updateAccountBtn">Update Account</button>
-        <button id="deleteAccountBtn">Delete Account</button>
-      </div>
     </div>
   </div>
 </section>
