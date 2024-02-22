@@ -2,6 +2,7 @@ const path = require('path')
 const axios = require('axios');
 const verifyToken = require('../middleware/authMiddlware');
 const express = require('express');
+const nodemailer = require('nodemailer');
 const router = express.Router();
 const seatBookingPage = path.join(__dirname, '../pages', 'seatBooking.html');
 
@@ -78,6 +79,33 @@ router.get('/movieDetails/:id', async (req, res) => {
         console.error('Error fetching movie details:', error);
         res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
     }
+});
+
+router.post('/api/submit-feedback', (req, res) => {
+    const { message } = req.body;
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'abylay0505@gmail.com',
+            pass: 'bpte shra ykyk ehxd'
+        }
+    });
+
+    const mailOptions = {
+        from: req.params.email,
+        to: 'abylay0505@gmail.com',
+        subject: 'New Feedback Received',
+        text: message
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            res.status(500).send('Error sending email');
+        } else {
+            res.send('Feedback sent successfully');
+        }
+    });
 });
 
 module.exports = router;

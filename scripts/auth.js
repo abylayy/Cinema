@@ -30,7 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (deleteAccountBtn) {
         deleteAccountBtn.addEventListener('click', () => {
             const id = getUserId();
-            deleteAccount(id);
+            if (id) {
+                deleteAccount(id);
+            } else {
+                console.error('User ID not found');
+            }
         });
     }
 
