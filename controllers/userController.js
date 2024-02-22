@@ -119,3 +119,22 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: error.message || 'Error during login' });
     }
 };
+
+exports.addPaymentMethod = async (req, res) => {
+    const { userId, cardNumber, expiryDate, cvv } = req.body;
+
+    try {
+        const updatedUser = await UserModel.findByIdAndUpdate(userId, {
+            paymentMethod: { cardNumber, expiryDate, cvv }
+        }, { new: true });
+
+        if (!updatedUser) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+
+        res.status(200).send({ message: 'Payment method added successfully' });
+    } catch (error) {
+        res.status(500).send({ message: 'An error occurred while updating the payment method' });
+    }
+};
+

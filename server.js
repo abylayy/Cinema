@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 
 app.use('/user', userRoutes);
 app.use('/', appRoutes);
+app.use('/api', userRoutes);
 
 const port = process.env.PORT || 3000;
 

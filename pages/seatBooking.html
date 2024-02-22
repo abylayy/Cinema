@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,8 +31,8 @@
       justify-content: center;
       background: linear-gradient(
               to right,
-              rgb(162, 216, 162),
-              rgb(102, 194, 102)
+              rgb(78, 79, 79),
+              rgb(45, 43, 43)
       );
     }
     .tickets {
@@ -115,7 +116,7 @@
       outline: none;
     }
     .item:nth-child(3)::before {
-      background: rgb(28, 185, 120);
+      background: #DB0000;
       outline: none;
     }
     .all-seats {
@@ -135,7 +136,7 @@
       cursor: pointer;
     }
     .all-seats input:checked + label {
-      background: rgb(28, 185, 120);
+      background: #DB0000;
       outline: none;
     }
     .seat.booked {
@@ -191,7 +192,7 @@
       cursor: pointer;
     }
     .timings input:checked + label {
-      background: rgb(28, 185, 120);
+      background: #DB0000;
       color: white;
     }
     .price {
@@ -231,8 +232,14 @@
 <div class="center">
   <div class="tickets">
     <div class="ticket-selector">
-      <div class="head">
-        <div class="title">Movie Name</div>
+      <div class="movie-container">
+        <label> Select a movie:</label>
+        <select id="movie">
+          <option value="220">Wonka</option>
+          <option value="320">Madam Web</option>
+          <option value="250">The Marvels</option>
+          <option value="260">The Beekeeper</option>
+        </select>
       </div>
       <div class="seats">
         <div class="status">
@@ -242,7 +249,6 @@
         </div>
         <div class="all-seats">
           <input type="checkbox" name="tickets" id="s1" />
-          <label for="s1" class="seat booked"></label>
         </div>
       </div>
       <div class="timings">
@@ -305,41 +311,95 @@
   </div>
 </div>
 <script>
-  let seats = document.querySelector(".all-seats");
-  for (var i = 0; i < 59; i++) {
-    let randint = Math.floor(Math.random() * 2);
-    let booked = randint === 1 ? "booked" : "";
-    seats.insertAdjacentHTML(
-            "beforeend",
-            '<input type="checkbox" name="tickets" id="s' +
-            (i + 2) +
-            '" /><label for="s' +
-            (i + 2) +
-            '" class="seat ' +
-            booked +
-            '"></label>'
-    );
-  }
+  document.addEventListener("DOMContentLoaded", function() {
+    // Function to clear selected seats
+    function clearSelectedSeats() {
+      let tickets = document.querySelectorAll(".all-seats input");
+      tickets.forEach(ticket => {
+        ticket.checked = false;
+      });
+      // Reset total ticket count and price
+      document.querySelector(".amount").innerHTML = "0";
+      document.querySelector(".count").innerHTML = "0";
+    }
 
-  let tickets = seats.querySelectorAll("input");
-  tickets.forEach((ticket) => {
-    ticket.addEventListener("change", () => {
-      let amount = document.querySelector(".amount").innerHTML;
-      let count = document.querySelector(".count").innerHTML;
-      amount = Number(amount);
-      count = Number(count);
+    // Select date elements
+    let dates = document.querySelectorAll('input[name="date"]');
+    // Add event listener to each date element
+    dates.forEach(date => {
+      date.addEventListener("click", () => {
+        clearSelectedSeats();
+      });
+    });
 
-      if (ticket.checked) {
-        count += 1;
-        amount += 200;
-      } else {
-        count -= 1;
-        amount -= 200;
-      }
-      document.querySelector(".amount").innerHTML = amount;
-      document.querySelector(".count").innerHTML = count;
+    // Select time elements
+    let times = document.querySelectorAll('input[name="time"]');
+    // Add event listener to each time element
+    times.forEach(time => {
+      time.addEventListener("click", () => {
+        clearSelectedSeats();
+      });
+    });
+
+    // Select movie dropdown
+    let movieSelect = document.getElementById('movie');
+    // Add event listener to movie dropdown
+    movieSelect.addEventListener("change", () => {
+      clearSelectedSeats();
+    });
+
+    // Dynamically add seat checkboxes
+    let seats = document.querySelector(".all-seats");
+    for (var i = 0; i < 60; i++) {
+      let seat = "";
+      seats.insertAdjacentHTML(
+              "beforeend",
+              '<input type="checkbox" name="tickets" id="s' +
+              (i + 2) +
+              '" /><label for="s' +
+              (i + 2) +
+              '" class="seat ' +
+              seat +
+              '"></label>'
+      );
+    }
+
+    // Add event listener to each seat checkbox for updating total ticket count and price
+    let tickets = seats.querySelectorAll("input");
+    tickets.forEach(ticket => {
+      ticket.addEventListener("change", () => {
+        let amount = document.querySelector(".amount").innerHTML;
+        let count = document.querySelector(".count").innerHTML;
+        amount = Number(amount);
+        count = Number(count);
+
+        // Check if the seat is being selected or deselected
+        if (ticket.checked) {
+          // Check if selecting this seat would exceed the maximum number of seats (4)
+          if (count >= 4) {
+            // If attempting to select a fifth seat, prevent selecting it and show an alert
+            ticket.checked = false;
+            alert("You can only select up to 4 seats.");
+          } else {
+            // If not at the maximum, allow selecting the seat and update count and amount
+            count += 1;
+            amount += 200;
+          }
+        } else {
+          // If the seat is being deselected, ensure count doesn't go negative
+          if (count > 0) {
+            count -= 1;
+            amount -= 200;
+          }
+        }
+        // Update total ticket count and price
+        document.querySelector(".amount").innerHTML = amount;
+        document.querySelector(".count").innerHTML = count;
+      });
     });
   });
+
 </script>
+
 </body>
 </html>

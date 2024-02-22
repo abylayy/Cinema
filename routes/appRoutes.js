@@ -4,6 +4,7 @@ const verifyToken = require('../middleware/authMiddlware');
 const express = require('express');
 const nodemailer = require('nodemailer');
 const router = express.Router();
+const User = require('../models/user');
 const seatBookingPage = path.join(__dirname, '../pages', 'seatBooking.html');
 
 router.post('/logout', (req, res) => {
@@ -78,6 +79,17 @@ router.get('/movieDetails/:id', async (req, res) => {
     } catch (error) {
         console.error('Error fetching movie details:', error);
         res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
+    }
+});
+
+router.post('/api/user/add-payment-method', async (req, res) => {
+    const { userId, cardNumber, expiryDate, cvv } = req.body;
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(userId, { paymentMethod: cardNumber }, { new: true });
+        res.send('Payment method updated successfully');
+    } catch (err) {
+        res.status(500).send(err);
     }
 });
 
