@@ -26,10 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button id="submitFeedbackBtn">Submit Feedback</button>
                  </div>`,
         'paymentmethods': `<h2>Payment Methods</h2>
-                       <div class="payment-methods-info">
-                          <p>Add or manage your payment methods here.</p>
-                          <!-- Add your payment methods content here -->
-                       </div>`
+                        <div class="payment-methods-info">
+                            <form id="payment-method-form">
+                                <label for="card-number">Card Number:</label>
+                                <input type="text" id="card-number" class="input-field" placeholder="Enter card number" required>
+
+                                <label for="expiry-date">Expiry Date:</label>
+                                <input type="text" id="expiry-date" class="input-field" placeholder="MM/YY" required>
+
+                                <label for="cvv">CVV:</label>
+                                <input type="text" id="cvv" class="input-field" placeholder="Enter CVV" required>
+
+                                <input type="submit" value="Add Payment Method">
+                            </form>
+                        </div>`
     }
 
     const sidebarItems = document.querySelectorAll('.vertical-nav li');

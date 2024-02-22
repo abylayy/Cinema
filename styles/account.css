@@ -119,9 +119,8 @@ body {
 }
 
 .feedback-form textarea {
-    width: 70%; /* Adjust the width of the textarea */
+    width: 300px; /* Set a fixed width for the textarea */
     padding: 10px;
-    /*margin-top: 10px;*/
     box-sizing: border-box;
     resize: none;
     overflow: hidden;
@@ -129,8 +128,13 @@ body {
     margin: 0 auto; /* Center the textarea horizontally */
 }
 
+
+
+
 .feedback-form textarea::placeholder {
     text-align: center; /* Center the placeholder text */
+    justify-content: center;
+    align-items: center;
 }
 
 .feedback-form button {
@@ -171,4 +175,49 @@ body {
 footer p {
     margin-top: 30px;
 }
+
+/* Payment Methods Styles */
+.payment-methods-info {
+    margin-top: 20px;
+}
+
+.payment-methods-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#payment-method-form {
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+#payment-method-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#payment-method-form input[type="text"],
+#payment-method-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border-radius: 70px;
+    color: #fff;
+}
+
+#payment-method-form input[type="submit"] {
+    background-color: #DB0000;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#payment-method-form input[type="submit"]:hover {
+    background-color: #960000;
+}
+
+
 
