@@ -22,11 +22,6 @@ const userSchema = new Schema({
         required: true,
         set: (password) => bcrypt.hashSync(password, 10)
     },
-    paymentMethods: [{
-        cardNumber: { type: String, required: true },
-        expiryDate: { type: String, required: true },
-        cvv: { type: String, required: true }
-    }]
 });
 
 userSchema.methods.isValidPassword = function (password) {

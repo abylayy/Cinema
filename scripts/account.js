@@ -108,7 +108,7 @@
                 return;
             }
 
-            axios.post('/api/submit-feedback', { message: feedbackMessage })
+            axios.post('/submit-feedback', { userId: getUserId(), message: feedbackMessage })
                 .then(response => {
                     console.log('Feedback submitted:', response.data);
                     alert('Thank you for your feedback!');
@@ -118,24 +118,6 @@
                 .catch(error => {
                     console.error('Error submitting feedback:', error);
                     alert('Error submitting feedback. Please try again later.');
-                });
-        }
-
-        function submitPaymentMethod(event) {
-            event.preventDefault();
-            const cardNumber = document.getElementById('card-number').value;
-            const expiryDate = document.getElementById('expiry-date').value;
-            const cvv = document.getElementById('cvv').value;
-            const userId = getUserId();
-
-            axios.post('/api/user/add-payment-method', { userId, cardNumber, expiryDate, cvv })
-                .then(response => {
-                    alert('Payment method added successfully');
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error adding payment method:', error);
-                    alert('Failed to add payment method');
                 });
         }
     });

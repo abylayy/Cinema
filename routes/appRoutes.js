@@ -2,9 +2,9 @@ const path = require('path')
 const axios = require('axios');
 const verifyToken = require('../middleware/authMiddlware');
 const express = require('express');
-const nodemailer = require('nodemailer');
+const Feedback = require('../models/feedback');
+const BoughtSeat = require('../models/boughtSeats');
 const router = express.Router();
-const User = require('../models/user');
 const seatBookingPage = path.join(__dirname, '../pages', 'seatBooking.html');
 
 router.post('/logout', (req, res) => {
@@ -82,42 +82,37 @@ router.get('/movieDetails/:id', async (req, res) => {
     }
 });
 
-router.post('/api/user/add-payment-method', async (req, res) => {
-    const { userId, cardNumber, expiryDate, cvv } = req.body;
-
+router.post('/submit-feedback', async (req, res) => {
     try {
-        const updatedUser = await User.findByIdAndUpdate(userId, { paymentMethod: cardNumber }, { new: true });
-        res.send('Payment method updated successfully');
-    } catch (err) {
-        res.status(500).send(err);
+        const { userId, message } = req.body;
+        const feedback = new Feedback({ userId, message });
+        await feedback.save();
+        res.status(201).json({ message: 'Feedback submitted successfully' });
+    } catch (error) {
+        console.error('Error submitting feedback:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
 });
 
-router.post('/api/submit-feedback', (req, res) => {
-    const { message } = req.body;
+router.post('/boughtSeats', async (req, res) => {
+    try {
+        const { userId, movieId, date, time, seats } = req.body;
+        const boughtSeat = await BoughtSeat.create({ userId, movieId, date, time, seats });
+        res.status(201).json(boughtSeat);
+    } catch (error) {
+        console.error('Error creating bought seat:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+});
 
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'abylay0505@gmail.com',
-            pass: 'bpte shra ykyk ehxd'
-        }
-    });
-
-    const mailOptions = {
-        from: req.params.email,
-        to: 'abylay0505@gmail.com',
-        subject: 'New Feedback Received',
-        text: message
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            res.status(500).send('Error sending email');
-        } else {
-            res.send('Feedback sent successfully');
-        }
-    });
+router.get('/boughtSeats', async (req, res) => {
+    try {
+        const boughtSeats = await BoughtSeat.find();
+        res.json(boughtSeats);
+    } catch (error) {
+        console.error('Error fetching bought seats:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
 });
 
 module.exports = router;

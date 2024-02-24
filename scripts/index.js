@@ -20,8 +20,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     cinemaCards.forEach((cinemaLink) => {
         cinemaLink.addEventListener('click', (event) => {
+            console.log('Cinema link clicked');
             event.preventDefault();
+            console.log('Prevented default behavior');
             window.location.href = '/seatBooking';
+            console.log('Redirected to seat booking page');
         });
     });
 

@@ -170,6 +170,7 @@ function update(id) {
         .then(response => {
             console.log(response.data.message);
             alert(response.data.message);
+            window.location.reload();
         })
         .catch(error => {
             console.error(error.response.data.message);
