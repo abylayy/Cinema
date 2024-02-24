@@ -99,6 +99,14 @@ header{
     margin: 2px 0; /* Reduced margin */
 }
 
+.filters {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.filters.active {
+    transform: scale(1.1);
+    background-color: red;
+}
 
 header:before{
     content:"";

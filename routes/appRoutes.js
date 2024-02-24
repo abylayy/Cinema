@@ -66,6 +66,60 @@ router.get('/movies', async (req, res) => {
     }
 });
 
+router.get('/movies/now', async (req, res) => {
+    const tmdbApiKey = 'b743d7d019776f52a4f6cc05ddbb9cbb';
+    const page = req.query.page || 1;
+
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdbApiKey}&page=${page}`);
+        const movies = response.data.results.map(movie => ({
+            id: movie.id,
+            title: movie.title,
+            posterPath: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
+        res.json(movies);
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
+    }
+});
+
+router.get('/movies/top', async (req, res) => {
+    const tmdbApiKey = 'b743d7d019776f52a4f6cc05ddbb9cbb';
+    const page = req.query.page || 1;
+
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${tmdbApiKey}&page=${page}`);
+        const movies = response.data.results.map(movie => ({
+            id: movie.id,
+            title: movie.title,
+            posterPath: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
+        res.json(movies);
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
+    }
+});
+
+router.get('/movies/upcoming', async (req, res) => {
+    const tmdbApiKey = 'b743d7d019776f52a4f6cc05ddbb9cbb';
+    const page = req.query.page || 1;
+
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${tmdbApiKey}&page=${page}`);
+        const movies = response.data.results.map(movie => ({
+            id: movie.id,
+            title: movie.title,
+            posterPath: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
+        res.json(movies);
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
+    }
+});
+
 // Fetch movie details
 router.get('/movieDetails/:id', async (req, res) => {
     const tmdbApiKey = 'b743d7d019776f52a4f6cc05ddbb9cbb';

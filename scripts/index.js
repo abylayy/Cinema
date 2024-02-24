@@ -1,17 +1,12 @@
 document.addEventListener('DOMContentLoaded', async function () {
+
+    let currentPage = 1;
+    let currentApiEndpoint = '/movies';
+
     try {
         const movies = await fetchMovies();
         renderMovieCards(movies);
 
-        let currentPage = 1;
-
-        const loadMoreButton = document.getElementById('load-more-button');
-
-        loadMoreButton.addEventListener('click', async () => {
-            currentPage++;
-            const newMovies = await fetchMovies(currentPage);
-            renderMovieCards(newMovies);
-        });
     } catch (error) {
         console.error('Error fetching movie data:', error);
     }
@@ -37,6 +32,70 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.error('Error fetching movie data:', error);
             throw error;
         }
+    }
+
+    //Filter
+    const allFilters = document.querySelector('.all-filters');
+    const topRatedFilters = document.querySelector('.top-filters');
+    const nowPlayingFilters = document.querySelector('.now-filters');
+    const upcomingFilters = document.querySelector('.category-filters');
+
+    allFilters.addEventListener('click', () => handleFilterClick('/movies', allFilters));
+    topRatedFilters.addEventListener('click', () => handleFilterClick('/movies/top', topRatedFilters));
+    nowPlayingFilters.addEventListener('click', () => handleFilterClick('/movies/now', nowPlayingFilters));
+    upcomingFilters.addEventListener('click', () => handleFilterClick('/movies/upcoming', upcomingFilters));
+
+    // Function to handle filter click
+    async function handleFilterClick(apiEndpoint, clickedFilterElement) {
+        currentPage = 1; // Reset to first page for new filter
+        currentApiEndpoint = apiEndpoint;
+
+        document.querySelectorAll('.filters').forEach(filter => {
+            filter.classList.remove('active');
+        });
+
+        clickedFilterElement.classList.add('active');
+
+        try {
+            const movies = await fetchMovies(currentApiEndpoint);
+            clearMovieCards();
+            renderMovieCards(movies);
+        } catch (error) {
+            console.error('Error fetching movie data:', error);
+        }
+    }
+
+    // Function to fetch movies
+    async function fetchMovies(apiEndpoint = '/movies', page = 1) {
+        try {
+            // Construct the URL with the page number
+            const url = `${apiEndpoint}?page=${page}`;
+            const response = await axios.get(url);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching movie data:', error);
+            throw error;
+        }
+    }
+
+// Event listener for the Load More button
+    const loadMoreButton = document.getElementById('load-more-button');
+
+    loadMoreButton.addEventListener('click', async () => {
+        currentPage++;
+        try {
+            const newMovies = await fetchMovies(currentApiEndpoint, currentPage);
+            renderMovieCards(newMovies);
+        } catch (error) {
+            console.error('Error fetching movie data:', error);
+        }
+    });
+
+
+    // Function to clear existing movie cards
+    function clearMovieCards() {
+        const movieCardSection = document.querySelector('.movie-cardd-section');
+        movieCardSection.innerHTML = '';
     }
 
     // Function to render movie cards
