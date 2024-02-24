@@ -108,7 +108,8 @@
   // Fetch movies data from the API
   axios.get(apiUrl)
           .then(response => {
-            const movies = response.data;
+            console.log(response.data); // Log the response data
+            const movies = response.data.results; // Access the 'results' property
             const movieSelect = document.getElementById('movie');
 
             // Clear existing options
@@ -117,8 +118,8 @@
             // Populate select options with fetched movie data
             movies.forEach(movie => {
               const option = document.createElement('option');
-              option.value = movie.id; // Assuming 'id' is the unique identifier for each movie
-              option.text = movie.title; // Assuming 'title' is the property containing the movie title
+              option.value = movie.id;
+              option.text = movie.title;
               movieSelect.appendChild(option);
             });
           })
