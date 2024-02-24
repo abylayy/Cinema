@@ -6,7 +6,7 @@ const boughtSeatSchema = new Schema({
     movieId: { type: String, ref: 'Movie', required: true },
     date: { type: Date, required: true },
     time: { type: String, required: true },
-    seats: { type: Number, required: true }
+    seats: [{ type: String, required: true }]
 });
 
 module.exports = mongoose.model('BoughtSeat', boughtSeatSchema);

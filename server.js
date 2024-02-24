@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const appRoutes = require('./routes/appRoutes')
+const paypal = require('@paypal/checkout-server-sdk');
 
 const app = express();
 
@@ -30,3 +31,5 @@ app.use(express.static(path.join(__dirname, 'controllers')));
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
+
+

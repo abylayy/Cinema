@@ -40,50 +40,50 @@
       </div>
       <div class="timings">
         <div class="dates">
-          <input type="radio" name="date" id="d1" checked />
+          <input type="radio" name="date" id="d1" value="2024-02-27" checked />
           <label for="d1" class="dates-item">
-            <div class="day">Sun</div>
-            <div class="date">11</div>
-          </label>
-          <input type="radio" id="d2" name="date" />
-          <label class="dates-item" for="d2">
-            <div class="day">Mon</div>
-            <div class="date">12</div>
-          </label>
-          <input type="radio" id="d3" name="date" />
-          <label class="dates-item" for="d3">
             <div class="day">Tue</div>
-            <div class="date">13</div>
+            <div class="date">27</div>
           </label>
-          <input type="radio" id="d4" name="date" />
-          <label class="dates-item" for="d4">
+          <input type="radio" id="d2" name="date" value="2024-02-28" />
+          <label class="dates-item" for="d2">
             <div class="day">Wed</div>
-            <div class="date">14</div>
+            <div class="date">28</div>
           </label>
-          <input type="radio" id="d5" name="date" />
-          <label class="dates-item" for="d5">
+          <input type="radio" id="d3" name="date" value="2024-02-29"/>
+          <label class="dates-item" for="d3">
             <div class="day">Thu</div>
-            <div class="date">15</div>
+            <div class="date">29</div>
           </label>
-          <input type="radio" id="d6" name="date" />
-          <label class="dates-item" for="d6">
+          <input type="radio" id="d4" name="date" value="2024-03-01"/>
+          <label class="dates-item" for="d4">
             <div class="day">Fri</div>
-            <div class="date">16</div>
+            <div class="date">01</div>
           </label>
-          <input type="radio" id="d7" name="date" />
-          <label class="dates-item" for="d7">
+          <input type="radio" id="d5" name="date" value="2024-03-02"/>
+          <label class="dates-item" for="d5">
             <div class="day">Sat</div>
-            <div class="date">17</div>
+            <div class="date">02</div>
+          </label>
+          <input type="radio" id="d6" name="date" value="2024-03-03"/>
+          <label class="dates-item" for="d6">
+            <div class="day">Sun</div>
+            <div class="date">03</div>
+          </label>
+          <input type="radio" id="d7" name="date" value="2024-03-04"/>
+          <label class="dates-item" for="d7">
+            <div class="day">Mon</div>
+            <div class="date">04</div>
           </label>
         </div>
         <div class="times">
-          <input type="radio" name="time" id="t1" checked />
+          <input type="radio" name="time" id="t1" value="11:00" checked />
           <label for="t1" class="time">11:00</label>
-          <input type="radio" id="t2" name="time" />
+          <input type="radio" id="t2" name="time" value="14:30"/>
           <label for="t2" class="time"> 14:30 </label>
-          <input type="radio" id="t3" name="time" />
+          <input type="radio" id="t3" name="time" value="18:00"/>
           <label for="t3" class="time"> 18:00 </label>
-          <input type="radio" id="t4" name="time" />
+          <input type="radio" id="t4" name="time" value="21:30"/>
           <label for="t4" class="time"> 21:30 </label>
         </div>
       </div>
@@ -100,7 +100,7 @@
 <script src = "seatBooking.js"></script>
 <script src="auth.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
 <script>
   // Assuming you have an API endpoint to fetch movies data
   const apiUrl = 'https://api.themoviedb.org/3/movie/popular?api_key=b743d7d019776f52a4f6cc05ddbb9cbb&page=1';

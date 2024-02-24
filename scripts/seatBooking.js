@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+
     // Function to clear selected seats
     function clearSelectedSeats() {
         let tickets = document.querySelectorAll(".all-seats input");
@@ -34,6 +35,12 @@ document.addEventListener("DOMContentLoaded", function() {
     movieSelect.addEventListener("change", () => {
         clearSelectedSeats();
     });
+
+    const initialMovieId = movieSelect.value;
+    const initialTime = document.querySelector('input[name="time"]:checked').value;
+    if (initialMovieId && initialTime) {
+        updateBookedSeats(initialMovieId, initialTime);
+    }
 
     // Dynamically add seat checkboxes
     let seats = document.querySelector(".all-seats");
@@ -96,12 +103,52 @@ document.addEventListener("DOMContentLoaded", function() {
                 seats: selectedSeats
             });
             console.log('Seats bought successfully:', response.data);
-            // Add any additional logic here, such as updating UI or showing a success message
+            alert("Successfully completed!");
+            // window.location.reload();
+
         } catch (error) {
             console.error('Error buying seats:', error);
-            // Handle error, such as displaying an error message to the user
         }
     }
+
+    function fetchAndDisplayBookedSeats(movieId, time) {
+        axios.get(`/bookedSeats/${movieId}/${time}`)
+            .then(response => {
+                const bookedSeats = response.data; // Array of booked seat IDs
+
+                // Mark each booked seat as unavailable
+                bookedSeats.forEach(seatId => {
+                    const seatCheckbox = document.getElementById(seatId);
+                    if (seatCheckbox) {
+                        seatCheckbox.disabled = true;
+                        seatCheckbox.nextElementSibling.classList.add('booked');
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching booked seats:', error));
+    }
+
+    // Select movie dropdown
+    movieSelect = document.getElementById("movie");
+    // Add event listener to movie dropdown
+    movieSelect.addEventListener("change", () => {
+        clearSelectedSeats();
+        const selectedMovieId = movieSelect.value;
+        const selectedTime = document.querySelector('input[name="time"]:checked').value;
+        fetchAndDisplayBookedSeats(selectedMovieId, selectedTime);
+    });
+
+    // Select time elements
+    times = document.querySelectorAll('input[name="time"]');
+    // Add event listener to each time element
+    times.forEach(time => {
+        time.addEventListener("click", () => {
+            clearSelectedSeats();
+            const selectedMovieId = movieSelect.value;
+            const selectedTime = time.value;
+            fetchAndDisplayBookedSeats(selectedMovieId, selectedTime);
+        });
+    });
 
     // Call buySeats function when the user clicks the "Book" button
     const bookingButton = document.getElementById("bookingButton");
@@ -118,8 +165,64 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            // Call the buySeats function with the user ID
+            // Get selected date and time
+            const date = document.querySelector('input[name="date"]:checked').value;
+            const time = document.querySelector('input[name="time"]:checked').value;
+
+            // Get selected movie ID
+            const movieId = document.getElementById("movie").value;
+
+            // Get selected seats
+            const selectedSeats = Array.from(document.querySelectorAll('input[name="tickets"]:checked')).map(seat => seat.id);
+
+            // Call the buySeats function with the user ID, movie ID, date, time, and selected seats
             await buySeats(userId, movieId, date, time, selectedSeats);
         });
     }
+    function updateBookedSeats() {
+        const selectedMovieId = movieSelect.value;
+        const selectedDate = document.querySelector('input[name="date"]:checked').value;
+        const selectedTime = document.querySelector('input[name="time"]:checked').value;
+
+        if (selectedMovieId && selectedDate && selectedTime) {
+            axios.get(`/bookedSeats/${selectedMovieId}/${selectedDate}/${selectedTime}`)
+                .then(response => {
+                    const bookedSeats = response.data;
+                    // First, reset all seats to unbooked
+                    document.querySelectorAll(".all-seats input").forEach(seat => {
+                        seat.disabled = false;
+                        seat.nextElementSibling.classList.remove('booked');
+                    });
+                    // Then, mark fetched seats as booked
+                    bookedSeats.forEach(seatId => {
+                        const seatCheckbox = document.getElementById(seatId);
+                        if (seatCheckbox) {
+                            seatCheckbox.disabled = true;
+                            seatCheckbox.nextElementSibling.classList.add('booked');
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching booked seats:', error));
+        }
+    }
+
+    movieSelect.addEventListener('change', () => {
+        clearSelectedSeats();
+        const selectedMovieId = movieSelect.value;
+        const selectedTime = document.querySelector('input[name="time"]:checked')?.value;
+        if (selectedMovieId && selectedTime) {
+            updateBookedSeats(selectedMovieId, selectedTime);
+        }
+    });
+
+    times.forEach(time => {
+        time.addEventListener('change', () => {
+            clearSelectedSeats();
+            const selectedMovieId = movieSelect.value;
+            const selectedTime = time.value;
+            if (selectedMovieId && selectedTime) {
+                updateBookedSeats(selectedMovieId, selectedTime);
+            }
+        });
+    });
 });
