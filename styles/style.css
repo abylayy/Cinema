@@ -427,7 +427,7 @@ footer p {
 
 #movie-details-container {
     background-color: #111;
-    padding: 20px;
+    padding: 50px;
     text-align: center;
 }
 
@@ -437,7 +437,7 @@ footer p {
 }
 
 #movie-details-container iframe {
-    margin: 10px auto;
+    margin: 40px ;
     border: 3px solid white;
     border-radius: 8px;
 }
