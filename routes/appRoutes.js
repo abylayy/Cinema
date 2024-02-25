@@ -150,10 +150,11 @@ router.get('/movieDetails/:id', async (req, res) => {
     const movieId = req.params.id;
 
     try {
-        const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${tmdbApiKey}`);
-        res.json(response.data);
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${tmdbApiKey}`);
+        const trailers = response.data.results.filter(video => video.type === 'Trailer');
+        res.json(trailers);
     } catch (error) {
-        console.error('Error fetching movie details:', error);
+        console.error('Error fetching movie trailers:', error);
         res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
     }
 });

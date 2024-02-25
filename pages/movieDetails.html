@@ -29,13 +29,30 @@
     </nav>
 
 </header>
-
-<h1>Movie Details</h1>
 <div id="movie-details-container">
-    <img id="movie-poster" src="" alt="">
-    <h2 id="movie-title"></h2>
-    <p id="movie-overview"></p>
+<h1>Movie Trailers</h1>
 </div>
+<script src="index.js"></script>
 <script src="auth.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get('movieId');
+        const trailers = JSON.parse(sessionStorage.getItem(`movieTrailers_${movieId}`));
+
+        // Code to display trailers on the page
+        const container = document.getElementById('movie-details-container');
+        trailers.forEach(trailer => {
+            // Assuming trailers are YouTube videos, adjust as needed
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${trailer.key}`;
+            iframe.width = '560';
+            iframe.height = '315';
+            iframe.allowFullscreen = true;
+            iframe.classList.add('trailer-iframe');
+            container.appendChild(iframe);
+        });
+    });
+</script>
 </body>
 </html>

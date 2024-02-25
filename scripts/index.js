@@ -183,15 +183,18 @@ document.addEventListener('DOMContentLoaded', async function () {
             image.alt = movie.title;
             image.addEventListener('click', async () => {
                 try {
-                    const movieDetailsResponse = await axios.get(`/movieDetails/${movie.id}`);
-                    const movieDetails = movieDetailsResponse.data;
+                    // Fetching trailers from TMDB
+                    const trailersResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=b743d7d019776f52a4f6cc05ddbb9cbb`);
+                    const trailersData = trailersResponse.data.results.filter(video => video.type === 'Trailer');
 
-                    window.location.href = `/movieDetails/${movieDetails.id}`;
+                    sessionStorage.setItem(`movieTrailers_${movie.id}`, JSON.stringify(trailersData));
 
+                    window.location.href = `/movieDetails.html?movieId=${movie.id}`;
                 } catch (error) {
-                    console.error('Error fetching movie details:', error);
+                    console.error('Error fetching trailers:', error);
                 }
             });
+
 
             const content = document.createElement('div');
             content.classList.add('cardd-content');
