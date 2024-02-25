@@ -52,6 +52,38 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginSubmitBtn && registerSubmitBtn) {
         loginSubmitBtn.addEventListener("click", login);
         registerSubmitBtn.addEventListener("click", register);
+
+        // Attach keypress event listeners to input fields
+        document.getElementById("loginEmail").addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+        document.getElementById("loginPassword").addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+        document.getElementById("registerFirstName").addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                register();
+            }
+        });
+        document.getElementById("registerLastName").addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                register();
+            }
+        });
+        document.getElementById("registerEmail").addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                register();
+            }
+        });
+        document.getElementById("registerPassword").addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                register();
+            }
+        });
     }
 
     const accountBtn = document.getElementById("accountBtn");

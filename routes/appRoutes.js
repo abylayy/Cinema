@@ -57,12 +57,36 @@ router.get('/movies', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
         }));
         res.json(movies);
     } catch (error) {
         console.error('Error fetching movie data:', error);
         res.status(500).json({ error: 'Internal Server Error', details: error.message, stack: error.stack });
+    }
+});
+
+router.get('/movies/search', async (req, res) => {
+    const tmdbApiKey = 'b743d7d019776f52a4f6cc05ddbb9cbb';
+    const query = req.query.query;
+    const page = req.query.page || 1; // Default to page 1 if not specified
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/search/movie`, {
+            params: {
+                api_key: tmdbApiKey,
+                query: query,
+                page: page
+            }
+        });
+        const movies = response.data.results.map(movie => ({
+            id: movie.id,
+            title: movie.title,
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
+        }));
+        res.json(movies);
+    } catch (error) {
+        console.error('Error fetching movie search results:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
 });
 
@@ -75,7 +99,7 @@ router.get('/movies/now', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
         }));
         res.json(movies);
     } catch (error) {
@@ -93,7 +117,7 @@ router.get('/movies/top', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
         }));
         res.json(movies);
     } catch (error) {
@@ -111,7 +135,7 @@ router.get('/movies/upcoming', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
         }));
         res.json(movies);
     } catch (error) {

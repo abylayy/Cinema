@@ -237,6 +237,37 @@ section .filter-search-box .search-bar{
     overflow:hidden;
 }
 
+.search-barr {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: black; /* Adjust as needed */
+}
+
+/* Search Input Field */
+.search-barr input[type='text'] {
+    padding: 10px;
+    border: none;
+    border-radius: 50px;
+    width: 50%; /* Adjust as needed */
+    font-size: 16px;
+}
+
+/* Search Button */
+.search-barr button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #DB0000;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-left: 10px; /* Space between input and button */
+}
+
+.search-barr button:hover {
+    background-color: #950000;
+}
+
 .search-bar .bar{
     width:10%;
     height:inherit;
@@ -331,6 +362,12 @@ section .show{
 #load-more-button:hover {
     background-color: #950000;
 }
+
+.load-more-button[disabled] {
+    opacity: 0.5; /* Adjust opacity to visually indicate disabled state */
+    cursor: not-allowed; /* Change cursor to indicate button is disabled */
+}
+
 
 .load {
     background-color: #111;

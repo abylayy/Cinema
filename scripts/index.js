@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     let currentPage = 1;
     let currentApiEndpoint = '/movies';
+    let isSearchActive = false;
+    let currentSearchQuery = '';
+
 
     try {
         const movies = await fetchMovies();
@@ -34,6 +37,56 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
+    const searchInput = document.getElementById('movie-search-input');
+    const searchButton = document.getElementById('movie-search-button');
+
+    searchButton.addEventListener('click', () => {
+        performSearch(searchInput.value);
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch(searchInput.value);
+        }
+    });
+
+    async function performSearch(query) {
+        // Validate the search query
+        if (!query.trim()) {
+            alert('Please enter a search query.');
+            return;
+        }
+
+        isSearchActive = true;
+        currentSearchQuery = query;
+        currentPage = 1;
+
+        try {
+            const movies = await fetchMoviesByQuery(query);
+            clearMovieCards();
+
+            // Check if no movies found
+            if (movies.length === 0) {
+                alert('Unfortunately, no movies found for the provided search query.');
+                return;
+            }
+
+            renderMovieCards(movies);
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+        }
+    }
+
+    async function fetchMoviesByQuery(query, page = 1) {
+        try {
+            const response = await axios.get(`/movies/search?query=${encodeURIComponent(query)}&page=${page}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching movie data:', error);
+            throw error;
+        }
+    }
+
     //Filter
     const allFilters = document.querySelector('.all-filters');
     const topRatedFilters = document.querySelector('.top-filters');
@@ -47,6 +100,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Function to handle filter click
     async function handleFilterClick(apiEndpoint, clickedFilterElement) {
+        isSearchActive = false;
         currentPage = 1; // Reset to first page for new filter
         currentApiEndpoint = apiEndpoint;
 
@@ -82,9 +136,22 @@ document.addEventListener('DOMContentLoaded', async function () {
     const loadMoreButton = document.getElementById('load-more-button');
 
     loadMoreButton.addEventListener('click', async () => {
-        currentPage++;
+        currentPage++;  // Increment to fetch the next page
+
         try {
-            const newMovies = await fetchMovies(currentApiEndpoint, currentPage);
+            let newMovies;
+            if (isSearchActive) {
+                newMovies = await fetchMoviesByQuery(currentSearchQuery, currentPage);
+            } else {
+                // Fetch next page based on the current filter
+                newMovies = await fetchMovies(currentApiEndpoint, currentPage);
+            }
+
+            // If there are no more movies to load, disable the button
+            if (newMovies.length === 0) {
+                loadMoreButton.disabled = true;
+            }
+
             renderMovieCards(newMovies);
         } catch (error) {
             console.error('Error fetching movie data:', error);
@@ -107,9 +174,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             card.classList.add('cardd');
 
             const image = document.createElement('img');
-            image.src = movie.posterPath;
-            image.alt = movie.title;
+            if (!movie.posterPath) {
+                image.src = 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg';
+            } else {
+                image.src = movie.posterPath;
 
+            }
+            image.alt = movie.title;
             image.addEventListener('click', async () => {
                 try {
                     const movieDetailsResponse = await axios.get(`/movieDetails/${movie.id}`);

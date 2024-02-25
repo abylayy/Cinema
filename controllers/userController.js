@@ -28,10 +28,23 @@ exports.create = async (req, res) => {
     });
 
     try {
+        // check email
+        const existingUser = await UserModel.findOne({ email: req.body.email });
+        if (existingUser) {
+            return res.status(409).send({ message: 'Email already exists!' });
+        }
+
+        // If email does not exist, create a new user
+        const user = new UserModel({
+            email: req.body.email,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            password: req.body.password
+        });
+
         const savedUser = await user.save();
 
         const token = jwt.sign({ userId: user.id }, 'e77d7a7b8bde0b3cf4513dA', { expiresIn: '7d' });
-
 
         res.status(201).json({ message: "User created successfully!", user: savedUser, token });
     } catch (err) {
