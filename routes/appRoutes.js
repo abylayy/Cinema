@@ -3,6 +3,8 @@ const path = require('path');
 const axios = require('axios');
 const verifyToken = require('../middleware/authMiddlware');
 const router = express.Router();
+const paypalController = require('../controllers/paypalController');
+
 
 // Importing controllers
 const { submitFeedback } = require('../controllers/feedbackController');
@@ -57,7 +59,7 @@ router.get('/movies', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/1080x1580'
         }));
         res.json(movies);
     } catch (error) {
@@ -81,7 +83,7 @@ router.get('/movies/search', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/1080x1580'
         }));
         res.json(movies);
     } catch (error) {
@@ -99,7 +101,7 @@ router.get('/movies/now', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/1080x1580'
         }));
         res.json(movies);
     } catch (error) {
@@ -117,7 +119,7 @@ router.get('/movies/top', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/1080x1580'
         }));
         res.json(movies);
     } catch (error) {
@@ -135,7 +137,7 @@ router.get('/movies/upcoming', async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg'
+            posterPath: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/1080x1580'
         }));
         res.json(movies);
     } catch (error) {
@@ -162,8 +164,17 @@ router.get('/movieDetails/:id', async (req, res) => {
 // Feedback submission
 router.post('/submit-feedback', submitFeedback);
 
+// router.get('/paypalsuccess', handlePayment);
+//
+// router.get('/paypalcancel', (req, res) => {
+//     res.send('Payment Cancelled');
+// });
+
+
 // Bought seats handling
 router.post('/boughtSeats', buySeats);
 router.get('/bookedSeats/:movieId/:time', getBookedSeats);
+router.post('/create-paypal-payment', paypalController.createPayment);
+router.get('/execute-paypal-payment', paypalController.executePayment);
 
 module.exports = router;

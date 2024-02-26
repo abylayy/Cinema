@@ -176,7 +176,12 @@ document.addEventListener("DOMContentLoaded", function() {
             const selectedSeats = Array.from(document.querySelectorAll('input[name="tickets"]:checked')).map(seat => seat.id);
 
             // Call the buySeats function with the user ID, movie ID, date, time, and selected seats
-            await buySeats(userId, movieId, date, time, selectedSeats);
+            try {
+                await initiatePayPalPayment();
+                await buySeats(userId, movieId, date, time, selectedSeats);
+            } catch (error) {
+                console.error("Payment failed:", error);
+            }
         });
     }
     function updateBookedSeats() {
@@ -225,4 +230,50 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+
+    function initiatePayPalPayment() {
+        // AJAX call to your server to create a PayPal payment
+        $.ajax({
+            url: '/create-paypal-payment',
+            type: 'POST',
+            success: function(response) {
+                // Redirect to PayPal payment page
+                window.location.href = response;
+            },
+            error: function(error) {
+                // Handle errors here
+                console.log(error);
+            }
+        });
+    }
+
+
+
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            // Set up the transaction
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '0.01'
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            // Capture the funds from the transaction
+            return actions.order.capture().then(function(details) {
+                // Show a success message to your buyer
+                alert('Transaction completed by ' + details.payer.name.given_name);
+                // Optional: Call your server to save the transaction
+                return fetch('/paypal-transaction-complete', {
+                    method: 'post',
+                    body: JSON.stringify({
+                        orderID: data.orderID
+                    })
+                });
+            });
+        }
+    }).render('#paypal-button-container');
+
 });

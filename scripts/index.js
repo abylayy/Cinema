@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             const image = document.createElement('img');
             if (!movie.posterPath) {
-                image.src = 'https://st2.depositphotos.com/2493575/5398/i/450/depositphotos_53989081-stock-photo-black-texture.jpg';
+                image.src = 'https://via.placeholder.com/1080x1580';
             } else {
                 image.src = movie.posterPath;
 
