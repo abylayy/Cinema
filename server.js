@@ -29,7 +29,6 @@ app.use(express.static(path.join(__dirname, 'routes')));
 app.use(express.static(path.join(__dirname, 'controllers')));
 
 paypal.configure({
-    mode: 'sandbox',
     client_id: process.env.ARyeVCsnmg2hFIHcdPAp3OibmmTzUtPhWPxeCJjn7ylZ3hZDaz9MO5HTsler2bPJ_vubylCgUA7dsIpJ,
     client_secret: process.env.EN0CfzOYwfK5abhatDrz6CjQGOQAiNV9ypG7m9iYfitIxF_UJe7dz0i2uBZfhShJUkdooS44nZ4h_ND_
 });
@@ -37,5 +36,3 @@ paypal.configure({
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
-
-

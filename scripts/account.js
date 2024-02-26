@@ -24,22 +24,7 @@
                      <div class="feedback-form">
                         <textarea id="feedbackMessage" class="input-field"></textarea>
                         <button id="submitFeedbackBtn">Submit Feedback</button>
-                     </div>`,
-            'paymentmethods': `<h2>Payment Methods</h2>
-                            <div class="payment-methods-info">
-                                <form id="payment-method-form">
-                                    <label for="card-number">Card Number:</label>
-                                    <input type="text" id="card-number" class="input-field" placeholder="Enter card number" required>
-    
-                                    <label for="expiry-date">Expiry Date:</label>
-                                    <input type="text" id="expiry-date" class="input-field" placeholder="MM/YY" required>
-    
-                                    <label for="cvv">CVV:</label>
-                                    <input type="text" id="cvv" class="input-field" placeholder="Enter CVV" required>
-    
-                                    <input type="submit" value="Add Payment Method">
-                                </form>
-                            </div>`
+                     </div>`
         }
 
         const sidebarItems = document.querySelectorAll('.vertical-nav li');
@@ -90,12 +75,6 @@
                 console.error(`Content template for '${contentName}' not found.`);
             }
 
-            if (contentName === 'paymentmethods') {
-                const paymentForm = document.getElementById('payment-method-form');
-                if (paymentForm) {
-                    paymentForm.addEventListener('submit', submitPaymentMethod);
-                }
-            }
         }
 
         function submitFeedback() {

@@ -3,7 +3,7 @@ const path = require('path');
 const axios = require('axios');
 const verifyToken = require('../middleware/authMiddlware');
 const router = express.Router();
-const paypalController = require('../controllers/paypalController');
+const paymentController = require('../controllers/paymentController');
 
 
 // Importing controllers
@@ -174,7 +174,7 @@ router.post('/submit-feedback', submitFeedback);
 // Bought seats handling
 router.post('/boughtSeats', buySeats);
 router.get('/bookedSeats/:movieId/:time', getBookedSeats);
-router.post('/create-paypal-payment', paypalController.createPayment);
-router.get('/execute-paypal-payment', paypalController.executePayment);
+router.post('/create-paypal-payment', paymentController.createPayment);
+router.get('/execute-paypal-payment', paymentController.executePayment);
 
 module.exports = router;

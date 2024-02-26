@@ -175,12 +175,40 @@ document.addEventListener("DOMContentLoaded", function() {
             // Get selected seats
             const selectedSeats = Array.from(document.querySelectorAll('input[name="tickets"]:checked')).map(seat => seat.id);
 
-            // Call the buySeats function with the user ID, movie ID, date, time, and selected seats
-            try {
-                await initiatePayPalPayment();
-                await buySeats(userId, movieId, date, time, selectedSeats);
-            } catch (error) {
-                console.error("Payment failed:", error);
+            // Render PayPal buttons
+            renderPayPalButtons();
+
+            // Function to initiate the PayPal payment process
+            function renderPayPalButtons() {
+                paypal.Buttons({
+                    createOrder: function(data, actions) {
+                        // Set up the transaction
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: '0.01' // Replace with the actual amount based on selected seats
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        // Capture the funds from the transaction
+                        return actions.order.capture().then(function(details) {
+                            // Show a success message to the buyer
+                            alert('Transaction completed by ' + details.payer.name.given_name);
+                            // Call your server to save the transaction
+                            return fetch('/paypal-transaction-complete', {
+                                method: 'post',
+                                body: JSON.stringify({
+                                    orderID: data.orderID
+                                })
+                            }).then(() => {
+                                // After successful payment, proceed to book seats
+                                buySeats(userId, movieId, date, time, selectedSeats);
+                            });
+                        });
+                    }
+                }).render('#paypal-button-container');
             }
         });
     }
@@ -246,34 +274,5 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-
-
-
-    paypal.Buttons({
-        createOrder: function(data, actions) {
-            // Set up the transaction
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: '0.01'
-                    }
-                }]
-            });
-        },
-        onApprove: function(data, actions) {
-            // Capture the funds from the transaction
-            return actions.order.capture().then(function(details) {
-                // Show a success message to your buyer
-                alert('Transaction completed by ' + details.payer.name.given_name);
-                // Optional: Call your server to save the transaction
-                return fetch('/paypal-transaction-complete', {
-                    method: 'post',
-                    body: JSON.stringify({
-                        orderID: data.orderID
-                    })
-                });
-            });
-        }
-    }).render('#paypal-button-container');
 
 });

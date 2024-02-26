@@ -1,9 +1,22 @@
 const BoughtSeat = require('../models/boughtSeats');
+const paypal = require('paypal-rest-sdk');
+const Payment = require('../models/payment')
 
 const buySeats = async (req, res) => {
     try {
         const { userId, movieId, date, time, seats } = req.body;
         const boughtSeat = await BoughtSeat.create({ userId, movieId, date, time, seats });
+        const newPayment = new Payment({
+            userId: userId, // Extracted from the session or request
+            amount: seats.length * 200,
+            status: 'completed'
+        });
+
+        newPayment.save().then(() => {
+            console.log('Payment saved successfully');
+        }).catch(error => {
+            console.error('Error saving payment:', error);
+        });
         res.status(201).json(boughtSeat);
     } catch (error) {
         console.error('Error creating bought seat:', error);
