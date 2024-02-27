@@ -104,8 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             console.log('Seats bought successfully:', response.data);
             alert("Successfully completed!");
-            // window.location.reload();
-
+            updateUIForBookedSeats(selectedSeats);
         } catch (error) {
             console.error('Error buying seats:', error);
         }
@@ -258,6 +257,16 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+
+    function updateUIForBookedSeats(selectedSeats) {
+        selectedSeats.forEach(seatId => {
+            const seatCheckbox = document.getElementById(seatId);
+            if (seatCheckbox) {
+                seatCheckbox.disabled = true;
+                seatCheckbox.nextElementSibling.classList.add('booked');
+            }
+        });
+    }
 
     function initiatePayPalPayment() {
         // AJAX call to your server to create a PayPal payment
