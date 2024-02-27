@@ -104,7 +104,8 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             console.log('Seats bought successfully:', response.data);
             alert("Successfully completed!");
-            updateUIForBookedSeats(selectedSeats);
+            // window.location.reload();
+
         } catch (error) {
             console.error('Error buying seats:', error);
         }
@@ -153,14 +154,24 @@ document.addEventListener("DOMContentLoaded", function() {
     const bookingButton = document.getElementById("bookingButton");
 
     // Add event listener to the booking button
+    let paymentMethodChosen = false; // Add this variable to track if payment method has been chosen
+
+// Add event listener to the booking button
     if (bookingButton) {
         bookingButton.addEventListener("click", async () => {
             // Get the user ID
             const userId = getUserId();
 
+
             // Check if user is authenticated
             if (!userId) {
                 alert("Please log in to book tickets.");
+                return;
+            }
+
+            // Check if payment method has already been chosen
+            if (paymentMethodChosen) {
+                alert("Please choose the payment method.");
                 return;
             }
 
@@ -174,8 +185,11 @@ document.addEventListener("DOMContentLoaded", function() {
             // Get selected seats
             const selectedSeats = Array.from(document.querySelectorAll('input[name="tickets"]:checked')).map(seat => seat.id);
 
-            // Render PayPal buttons
-            renderPayPalButtons();
+            // Render PayPal buttons only if payment method has not been chosen yet
+            if (!paymentMethodChosen) {
+                renderPayPalButtons();
+            }
+            paymentMethodChosen = true;
 
             // Function to initiate the PayPal payment process
             function renderPayPalButtons() {
@@ -204,6 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             }).then(() => {
                                 // After successful payment, proceed to book seats
                                 buySeats(userId, movieId, date, time, selectedSeats);
+                                paymentMethodChosen = true; // Update payment method chosen status
                             });
                         });
                     }
@@ -258,16 +273,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    function updateUIForBookedSeats(selectedSeats) {
-        selectedSeats.forEach(seatId => {
-            const seatCheckbox = document.getElementById(seatId);
-            if (seatCheckbox) {
-                seatCheckbox.disabled = true;
-                seatCheckbox.nextElementSibling.classList.add('booked');
-            }
-        });
-    }
-
     function initiatePayPalPayment() {
         // AJAX call to your server to create a PayPal payment
         $.ajax({
@@ -285,3 +290,4 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 });
+
