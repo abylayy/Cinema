@@ -7,7 +7,7 @@ const buySeats = async (req, res) => {
         const { userId, movieId, date, time, seats } = req.body;
         const boughtSeat = await BoughtSeat.create({ userId, movieId, date, time, seats });
         const newPayment = new Payment({
-            userId: userId, // Extracted from the session or request
+            userId: userId,
             amount: seats.length * 200,
             status: 'completed'
         });

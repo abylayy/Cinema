@@ -1,6 +1,6 @@
     document.addEventListener('DOMContentLoaded', () => {
         const contentTemplates = {
-            'account': `<h2>Hello, !</h2>
+            'account': `<h2>Welcome!</h2>
           <div class="account-info">
             <div class="update-form">
               <label for="updatedFirstName">First Name:</label>

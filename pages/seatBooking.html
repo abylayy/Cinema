@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ticket Booking</title>
-  <!--Google Fonts and Icons-->
   <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone"
           rel="stylesheet"
@@ -102,14 +101,13 @@
     <script src="https://www.paypal.com/sdk/js?client-id=ARyeVCsnmg2hFIHcdPAp3OibmmTzUtPhWPxeCJjn7ylZ3hZDaz9MO5HTsler2bPJ_vubylCgUA7dsIpJ"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-      // Assuming you have an API endpoint to fetch movies data
       const apiUrl = 'https://api.themoviedb.org/3/movie/popular?api_key=b743d7d019776f52a4f6cc05ddbb9cbb&page=1';
 
       // Fetch movies data from the API
       axios.get(apiUrl)
               .then(response => {
-                console.log(response.data); // Log the response data
-                const movies = response.data.results; // Access the 'results' property
+                console.log(response.data);
+                const movies = response.data.results;
                 const movieSelect = document.getElementById('movie');
 
                 // Clear existing options
