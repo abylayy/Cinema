@@ -4,6 +4,7 @@ const axios = require('axios');
 const verifyToken = require('../middleware/authMiddlware');
 const router = express.Router();
 const paymentController = require('../controllers/paymentController');
+const cool = require('cool-ascii-faces')
 
 
 // Importing controllers
@@ -13,6 +14,8 @@ const { buySeats, getBookedSeats } = require('../controllers/boughtSeatsControll
 // Static file paths
 router.use(express.static(path.join(__dirname, '../styles')));
 router.use(express.static(path.join(__dirname, '../scripts')));
+
+
 router.use(express.static(path.join(__dirname, '../pages')));
 
 // Route Definitions
@@ -170,6 +173,7 @@ router.post('/submit-feedback', submitFeedback);
 //     res.send('Payment Cancelled');
 // });
 
+router.get('/cool', (req, res) => res.send(cool()));
 
 // Bought seats handling
 router.post('/boughtSeats', buySeats);
