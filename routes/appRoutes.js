@@ -10,6 +10,8 @@ const cool = require('cool-ascii-faces')
 // Importing controllers
 const { submitFeedback } = require('../controllers/feedbackController');
 const { buySeats, getBookedSeats } = require('../controllers/boughtSeatsController');
+const boughtSeats = require("../models/boughtSeats");
+const mongoose = require("mongoose");
 
 // Static file paths
 router.use(express.static(path.join(__dirname, '../styles')));
@@ -164,6 +166,16 @@ router.get('/movieDetails/:id', async (req, res) => {
     }
 });
 
+router.get('/bought-tickets/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        // Assuming Tickets is your model and it has a method to find tickets by userId
+        const tickets = await boughtSeats.find({ userId: new mongoose.Types.ObjectId(userId) });        res.json(tickets);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 // Feedback submission
 router.post('/submit-feedback', submitFeedback);
 

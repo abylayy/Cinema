@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ticket Booking</title>
+  <link rel="icon" type="image/png" href ="https://thumbs.dreamstime.com/b/letter-k-logo-symbol-impact-font-red-circle-white-background-isolation-letter-k-logo-symbol-red-circle-211786118.jpg">
   <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone"
           rel="stylesheet"
@@ -16,7 +16,26 @@
           rel="stylesheet"
   />
   <link rel="stylesheet" href="seatBooking.css">
+  <link rel="stylesheet" href="style.css">
 </head>
+<header>
+  <nav>
+    <p class="logo">
+      Kino<span><a href = "index.html">Kor</a></span>
+    </p>
+
+    <i class="fa fa-bars" id="menu"></i>
+
+    <ul id="menu-box">
+      <div class="marker"></div>
+      <li><a href = "index.html">Home</a></li>
+      <li>Astana</li>
+      <li class="btn" id="accountBtn">Account</li>
+    </ul>
+
+  </nav>
+
+</header>
 <body>
 <div class="center">
   <div class="tickets">
@@ -90,8 +109,8 @@
       <div class="total">
         <span> <span class="count">0</span> Tickets </span>
         <div class="amount">0</div>
+        <button id="bookingButton" type="button" style="margin-bottom: 10px;">Book</button>
         <div id="paypal-button-container">
-          <button id="bookingButton" type="button" style="margin-bottom: 5px;">Book</button>
         </div>
       </div>
     </div>
@@ -131,6 +150,5 @@
               });
 
     </script>
-
 </body>
 </html>

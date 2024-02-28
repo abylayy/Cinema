@@ -19,7 +19,8 @@
                             <button id="updateAccountBtn">Update Account</button>
                             <button id="deleteAccountBtn">Delete Account</button>
                         </div>`,
-            'mytickets': `<h2>My Tickets</h2>`,
+            'mytickets': `<h2>My Tickets</h2>
+                      <div class="tickets-container"></div>`,
             'feedback': `<h2>Feedback</h2>
                      <div class="feedback-form">
                         <textarea id="feedbackMessage" class="input-field"></textarea>
@@ -71,6 +72,11 @@
                         submitFeedbackBtn.addEventListener('click', submitFeedback);
                     }
                 }
+
+                if (contentName === 'mytickets') {
+                    fetchAndDisplayTickets();
+                }
+
             } else {
                 console.error(`Content template for '${contentName}' not found.`);
             }
@@ -98,5 +104,30 @@
                     console.error('Error submitting feedback:', error);
                     alert('Error submitting feedback. Please try again later.');
                 });
+        }
+        async function fetchAndDisplayTickets() {
+            const userId = getUserId();
+            try {
+                const ticketsResponse = await axios.get(`/bought-tickets/${userId}`);
+                const tickets = ticketsResponse.data;
+
+                for (const ticket of tickets) {
+                    const movieResponse = await axios.get(`https://api.themoviedb.org/3/movie/${ticket.movieId}?api_key=b743d7d019776f52a4f6cc05ddbb9cbb`);
+                    ticket.movieTitle = movieResponse.data.title;
+                }
+
+                // Render tickets
+                const ticketsContainer = document.querySelector('.tickets-container');
+                ticketsContainer.innerHTML = tickets.map(ticket =>
+                    `<div class="ticket">
+                <p>Movie: ${ticket.movieTitle}</p>
+                <p>Date: ${new Date(ticket.date).toLocaleDateString()}</p>
+                <p>Time: ${ticket.time}</p>
+                <p>Seats: ${ticket.seats.join(', ')}</p>
+            </div>`).join('');
+
+            } catch (error) {
+                console.error('Error fetching tickets:', error);
+            }
         }
     });
