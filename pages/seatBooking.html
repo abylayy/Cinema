@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,6 @@
   <div class="tickets">
     <div class="ticket-selector">
       <div class="movie-container">
-        <label> Select a movie:</label>
         <select id="movie">
 
         </select>
@@ -113,6 +113,11 @@
                 // Clear existing options
                 movieSelect.innerHTML = '';
 
+                const defaultOption = document.createElement('option')
+                defaultOption.text = "Select movie"
+                defaultOption.value = 0
+                movieSelect.appendChild(defaultOption)
+
                 // Populate select options with fetched movie data
                 movies.forEach(movie => {
                   const option = document.createElement('option');
@@ -124,6 +129,7 @@
               .catch(error => {
                 console.error('Error fetching movies:', error);
               });
+
     </script>
 
 </body>

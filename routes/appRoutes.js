@@ -167,17 +167,11 @@ router.get('/movieDetails/:id', async (req, res) => {
 // Feedback submission
 router.post('/submit-feedback', submitFeedback);
 
-// router.get('/paypalsuccess', handlePayment);
-//
-// router.get('/paypalcancel', (req, res) => {
-//     res.send('Payment Cancelled');
-// });
-
 router.get('/cool', (req, res) => res.send(cool()));
 
 // Bought seats handling
 router.post('/boughtSeats', buySeats);
-router.get('/bookedSeats/:movieId/:time', getBookedSeats);
+router.get('/bookedSeats/:movieId/:date/:time', getBookedSeats);
 router.post('/create-paypal-payment', paymentController.createPayment);
 router.get('/execute-paypal-payment', paymentController.executePayment);
 

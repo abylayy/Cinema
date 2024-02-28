@@ -26,8 +26,8 @@ const buySeats = async (req, res) => {
 
 const getBookedSeats = async (req, res) => {
     try {
-        const { movieId, time } = req.params;
-        const bookedSeats = await BoughtSeat.find({ movieId: movieId, time: time });
+        const { movieId, date, time } = req.params;
+        const bookedSeats = await BoughtSeat.find({ movieId: movieId, date: date, time: time });
         res.json(bookedSeats.map(seat => seat.seats).flat());
     } catch (error) {
         console.error('Error fetching booked seats:', error);

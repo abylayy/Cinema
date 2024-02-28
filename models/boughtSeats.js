@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const boughtSeatSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     movieId: { type: String, ref: 'Movie', required: true },
-    date: { type: Date, required: true },
+    date: { type: String, required: true },
     time: { type: String, required: true },
     seats: [{ type: String, required: true }]
 });
