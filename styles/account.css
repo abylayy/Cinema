@@ -191,13 +191,13 @@ footer p {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    background-color: #222; /* Optional background color */
+    background-color: #222; 
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .ticket {
-    background-color: #333; /* Slightly different background for each ticket */
+    background-color: #333;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 10px;
